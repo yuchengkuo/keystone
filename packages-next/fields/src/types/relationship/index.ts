@@ -58,84 +58,32 @@ export type RelationshipFieldConfig<
 
 export const relationship = <TGeneratedListTypes extends BaseGeneratedListTypes>(
   config: RelationshipFieldConfig<TGeneratedListTypes>
-): FieldType<TGeneratedListTypes> => ({
-  type: Relationship,
-  config,
-  views: resolveView('relationship/views'),
-  getAdminMeta: (
-    listKey,
-    path,
-    adminMetaRoot
-  ): Parameters<
-    typeof import('@keystone-next/fields/types/relationship/views').controller
-  >[0]['fieldMeta'] => {
-    const refListKey = config.ref.split('.')[0];
-    if (!adminMetaRoot.listsByKey[refListKey]) {
-      throw new Error(`The ref [${config.ref}] on relationship [${listKey}.${path}] is invalid`);
-    }
-    return {
-      refListKey,
-      many: config.many ?? false,
-      hideCreate: config.ui?.hideCreate ?? false,
-      ...(config.ui?.displayMode === 'cards'
-        ? {
-            displayMode: 'cards',
-            cardFields: config.ui.cardFields,
-            linkToItem: config.ui.linkToItem ?? false,
-            removeMode: config.ui.removeMode ?? 'disconnect',
-            inlineCreate: config.ui.inlineCreate ?? null,
-            inlineEdit: config.ui.inlineEdit ?? null,
-            inlineConnect: config.ui.inlineConnect ?? false,
-          }
-        : {
-            displayMode: 'select',
-            refLabelField: adminMetaRoot.listsByKey[refListKey].labelField,
-          }),
-    };
-  },
-  experimental: undefined as any,
-});
-
-export type RelationshipFieldExperimentalConfig<
-  TGeneratedListTypes extends BaseGeneratedListTypes
-> = FieldConfig<TGeneratedListTypes> & {
-  many?: boolean;
-  list: string;
-  field: string;
-  ui?: {
-    hideCreate?: boolean;
-  };
-  defaultValue?: FieldDefaultValue<Record<string, unknown>>;
-  isIndexed?: boolean;
-  isUnique?: boolean;
-} & (SelectDisplayConfig | CardsDisplayConfig);
-
-export const relationshipExperimental = <TGeneratedListTypes extends BaseGeneratedListTypes>(
-  config: RelationshipFieldExperimentalConfig<TGeneratedListTypes>
 ): FieldType<TGeneratedListTypes> => {
+  const [foreignListKey, foreignField] = config.ref.split('.');
   let experimental: any;
   if (config.many) {
     experimental = fieldType({
       kind: 'relation',
-      relation: { field: config.field, model: config.list },
+      relation: { field: foreignField, model: foreignListKey },
       mode: 'many',
     })({
       input: {
         where: {
-          arg: typesForLists => types.arg({ type: typesForLists[config.list].manyRelationFilter }),
+          arg: typesForLists =>
+            types.arg({ type: typesForLists[foreignListKey].manyRelationFilter }),
         },
         create: {
           arg: typesForLists =>
             types.arg({
               type: types.inputObject({
-                name: `${config.list}_${config.field}_CreateInput`,
+                name: `${foreignListKey}_${foreignField}_CreateInput`,
                 fields: {
                   create: types.arg({
-                    type: types.list(types.nonNull(typesForLists[config.list].create)),
+                    type: types.list(types.nonNull(typesForLists[foreignListKey].create)),
                     defaultValue: [],
                   }),
                   connect: types.arg({
-                    type: types.list(types.nonNull(typesForLists[config.list].uniqueWhere)),
+                    type: types.list(types.nonNull(typesForLists[foreignListKey].uniqueWhere)),
                   }),
                 },
               }),
@@ -148,19 +96,19 @@ export const relationshipExperimental = <TGeneratedListTypes extends BaseGenerat
           arg: typesForLists =>
             types.arg({
               type: types.inputObject({
-                name: `${config.list}_${config.field}_UpdateInput`,
+                name: `${foreignListKey}_${foreignField}_UpdateInput`,
                 fields: {
                   create: types.arg({
-                    type: types.list(types.nonNull(typesForLists[config.list].create)),
+                    type: types.list(types.nonNull(typesForLists[foreignListKey].create)),
                   }),
                   connect: types.arg({
-                    type: types.list(types.nonNull(typesForLists[config.list].uniqueWhere)),
+                    type: types.list(types.nonNull(typesForLists[foreignListKey].uniqueWhere)),
                   }),
                   disconnect: types.arg({
-                    type: types.list(types.nonNull(typesForLists[config.list].uniqueWhere)),
+                    type: types.list(types.nonNull(typesForLists[foreignListKey].uniqueWhere)),
                   }),
                   set: types.arg({
-                    type: types.list(types.nonNull(typesForLists[config.list].uniqueWhere)),
+                    type: types.list(types.nonNull(typesForLists[foreignListKey].uniqueWhere)),
                   }),
                 },
               }),
@@ -171,16 +119,18 @@ export const relationshipExperimental = <TGeneratedListTypes extends BaseGenerat
         },
       },
       output: typesForLists => {
-        const findManyArgs = getFindManyArgs(typesForLists[config.list]);
+        const findManyArgs = getFindManyArgs(typesForLists[foreignListKey]);
         return types.field({
           type: types.object<{
             findMany(args: FindManyArgsValue): Promise<{ id: string; [key: string]: unknown }[]>;
             count(args: FindManyArgsValue): Promise<number>;
           }>()({
-            name: `${config.list}_${config.field}_Connection`,
+            name: `${foreignListKey}_${foreignField}_Connection`,
             fields: {
               items: types.field({
-                type: types.nonNull(types.list(types.nonNull(typesForLists[config.list].output))),
+                type: types.nonNull(
+                  types.list(types.nonNull(typesForLists[foreignListKey].output))
+                ),
                 args: findManyArgs,
                 resolve(rootVal, args) {
                   return rootVal.findMany(args);
@@ -204,21 +154,21 @@ export const relationshipExperimental = <TGeneratedListTypes extends BaseGenerat
   } else {
     experimental = fieldType({
       kind: 'relation',
-      relation: { field: config.field, model: config.list },
+      relation: { field: foreignField, model: foreignListKey },
       mode: 'one',
     })({
       input: {
         where: {
-          arg: typesForLists => types.arg({ type: typesForLists[config.list].where }),
+          arg: typesForLists => types.arg({ type: typesForLists[foreignListKey].where }),
         },
         create: {
           arg: typesForLists => {
             return types.arg({
               type: types.inputObject({
-                name: `${config.list}_${config.field}_CreateInput`,
+                name: `${foreignListKey}_${foreignField}_CreateInput`,
                 fields: {
-                  create: types.arg({ type: typesForLists[config.list].create }),
-                  connect: types.arg({ type: typesForLists[config.list].uniqueWhere }),
+                  create: types.arg({ type: typesForLists[foreignListKey].create }),
+                  connect: types.arg({ type: typesForLists[foreignListKey].uniqueWhere }),
                 },
               }),
             });
@@ -231,10 +181,10 @@ export const relationshipExperimental = <TGeneratedListTypes extends BaseGenerat
           arg: typesForLists => {
             return types.arg({
               type: types.inputObject({
-                name: `${config.list}_${config.field}_UpdateInput`,
+                name: `${foreignListKey}_${foreignField}_UpdateInput`,
                 fields: {
-                  create: types.arg({ type: typesForLists[config.list].create }),
-                  connect: types.arg({ type: typesForLists[config.list].where }),
+                  create: types.arg({ type: typesForLists[foreignListKey].create }),
+                  connect: types.arg({ type: typesForLists[foreignListKey].where }),
                   disconnect: types.arg({ type: types.Boolean }),
                 },
               }),
@@ -247,7 +197,7 @@ export const relationshipExperimental = <TGeneratedListTypes extends BaseGenerat
       },
       output: typesForLists =>
         types.field({
-          type: typesForLists[config.list].output,
+          type: typesForLists[foreignListKey].output,
           resolve(value) {
             return value.value();
           },
@@ -265,8 +215,11 @@ export const relationshipExperimental = <TGeneratedListTypes extends BaseGenerat
     ): Parameters<
       typeof import('@keystone-next/fields/types/relationship/views').controller
     >[0]['fieldMeta'] => {
+      if (!adminMetaRoot.listsByKey[foreignListKey]) {
+        throw new Error(`The ref [${config.ref}] on relationship [${listKey}.${path}] is invalid`);
+      }
       return {
-        refListKey: config.list,
+        refListKey: foreignListKey,
         many: config.many ?? false,
         hideCreate: config.ui?.hideCreate ?? false,
         ...(config.ui?.displayMode === 'cards'
@@ -281,7 +234,7 @@ export const relationshipExperimental = <TGeneratedListTypes extends BaseGenerat
             }
           : {
               displayMode: 'select',
-              refLabelField: adminMetaRoot.listsByKey[config.list].labelField,
+              refLabelField: adminMetaRoot.listsByKey[foreignListKey].labelField,
             }),
       };
     },

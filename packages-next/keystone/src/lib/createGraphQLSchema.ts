@@ -1,4 +1,4 @@
-import { GraphQLObjectType } from 'graphql';
+import { GraphQLObjectType, GraphQLSchema } from 'graphql';
 import { mergeSchemas } from '@graphql-tools/merge';
 import { mapSchema } from '@graphql-tools/utils';
 import { makeExecutableSchema } from '@graphql-tools/schema';
@@ -7,12 +7,15 @@ import { getAdminMetaSchema } from '@keystone-next/admin-ui/system';
 
 import { gql } from '../schema';
 
-export function createGraphQLSchema(config: KeystoneConfig, keystone: BaseKeystone) {
+export function createGraphQLSchema(config: KeystoneConfig, keystone: BaseKeystone): GraphQLSchema {
   // Start with the core keystone graphQL schema
-  let graphQLSchema = makeExecutableSchema({
-    typeDefs: keystone.getTypeDefs({ schemaName: 'public' }),
-    resolvers: keystone.getResolvers({ schemaName: 'public' }),
-  });
+  let graphQLSchema =
+    config.db.adapter === 'experimental'
+      ? (keystone as any).graphQLSchema
+      : makeExecutableSchema({
+          typeDefs: keystone.getTypeDefs({ schemaName: 'public' }),
+          resolvers: keystone.getResolvers({ schemaName: 'public' }),
+        });
 
   // Filter out the _label_ field from all lists
   graphQLSchema = mapSchema(graphQLSchema, {

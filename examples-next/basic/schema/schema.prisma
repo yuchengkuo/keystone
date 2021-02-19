@@ -1,0 +1,40 @@
+
+  datasource data {
+    provider = "postgres"
+    url      = "postgres://keystone5:password@localhost:5432/keystone"
+  }
+  
+  generator gen {
+    provider = "prisma-client-js"
+  }
+  
+  model User {
+        id String @id @default(uuid())
+name String?
+email String? @unique
+password String?
+isAdmin Boolean?
+roles String?
+phoneNumbers PhoneNumber[] @relation("User___phoneNumbers___User___phoneNumbers")
+posts Post[] @relation("User___posts___User___posts")
+      }
+model PhoneNumber {
+        id String @id @default(uuid())
+user User? @relation("User___phoneNumbers___User___phoneNumbers", references: [id], fields: [userId])
+userId String?
+type String?
+value String?
+      }
+model Post {
+        id String @id @default(uuid())
+title String?
+status String?
+content String?
+publishDate DateTime?
+author User? @relation("User___posts___User___posts", references: [id], fields: [authorId])
+authorId String?
+      }
+  
+  
+  
+  

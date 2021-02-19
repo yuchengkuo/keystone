@@ -29,9 +29,9 @@ const fromEntriesButTypedWell: <Key extends string | number | symbol, Val>(
   iterable: Iterable<readonly [Key, Val]>
 ) => Record<Key, Val> = Object.fromEntries;
 
-export function getTypes(models: Record<string, ListForExperiment>): Record<string, TypesForList> {
+export function getTypes(lists: Record<string, ListForExperiment>): Record<string, TypesForList> {
   const typesForLists: Record<string, TypesForList> = fromEntriesButTypedWell(
-    Object.entries(models).map(([listKey, { fields, pluralGraphQLName }]): [
+    Object.entries(lists).map(([listKey, { fields, pluralGraphQLName }]): [
       string,
       TypesForList
     ] => {
@@ -75,7 +75,7 @@ export function getTypes(models: Record<string, ListForExperiment>): Record<stri
                                     },
                                     await runInputResolvers(
                                       typesForLists,
-                                      models,
+                                      lists,
                                       listKey,
                                       'where',
                                       where || {}
@@ -100,7 +100,7 @@ export function getTypes(models: Record<string, ListForExperiment>): Record<stri
                                     },
                                     await runInputResolvers(
                                       typesForLists,
-                                      models,
+                                      lists,
                                       listKey,
                                       'where',
                                       where || {}

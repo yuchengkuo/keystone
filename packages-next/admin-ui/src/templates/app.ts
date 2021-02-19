@@ -1,7 +1,6 @@
 import type { KeystoneConfig, FieldType } from '@keystone-next/types';
 import hashString from '@emotion/hash';
 import {
-  executeSync,
   GraphQLNonNull,
   GraphQLScalarType,
   GraphQLSchema,
@@ -9,6 +8,7 @@ import {
   parse,
   FragmentDefinitionNode,
   SelectionNode,
+  executeSync,
 } from 'graphql';
 import { staticAdminMetaQuery, StaticAdminMetaQuery } from '../admin-meta-graphql';
 import Path from 'path';

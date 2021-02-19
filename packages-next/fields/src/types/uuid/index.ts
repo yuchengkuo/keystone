@@ -22,6 +22,7 @@ export const uuid = (): FieldType<BaseGeneratedListTypes> => {
     type: undefined,
     views: resolveView('uuid/views'),
     config: {},
+    // @ts-ignore
     experimental: fieldType({
       kind: 'scalar',
       mode: 'required',

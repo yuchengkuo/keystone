@@ -10,7 +10,7 @@ import {
 } from '@keystone-next/fields';
 import { document } from '@keystone-next/fields-document';
 // import { cloudinaryImage } from '@keystone-next/cloudinary';
-import { KeystoneListsAPI } from '@keystone-next/types';
+import { KeystoneListsAPI, types } from '@keystone-next/types';
 import { KeystoneListsTypeInfo } from './.keystone/schema-types';
 import { componentBlocks } from './admin/fieldViews/Content';
 
@@ -86,10 +86,12 @@ export const lists = createSchema({
       }),
       posts: relationship({ ref: 'Post.author', many: true }),
       randomNumber: virtual({
-        graphQLReturnType: 'Float',
-        resolver() {
-          return randomNumber();
-        },
+        field: types.field({
+          type: types.Float,
+          resolve() {
+            return randomNumber();
+          },
+        }),
       }),
     },
   }),
@@ -100,9 +102,12 @@ export const lists = createSchema({
     },
     fields: {
       label: virtual({
-        resolver(item) {
-          return `${item.type} - ${item.value}`;
-        },
+        field: types.field({
+          type: types.String,
+          resolve(item) {
+            return `${item.type} - ${item.value}`;
+          },
+        }),
         ui: {
           listView: {
             fieldMode: 'hidden',

@@ -1,10 +1,17 @@
 import { DocumentFieldType } from './base-field-type';
-import type { FieldType, BaseGeneratedListTypes, FieldConfig } from '@keystone-next/types';
+import {
+  FieldType,
+  BaseGeneratedListTypes,
+  FieldConfig,
+  types,
+  fieldType,
+} from '@keystone-next/types';
 import path from 'path';
 import { Relationships } from './DocumentEditor/relationship';
 import { ComponentBlock } from './component-blocks';
 import { DocumentFeatures } from './views';
 import { validateAndNormalizeDocument } from './validation';
+import { addRelationshipData } from './relationship-data';
 
 type RelationshipsConfig = Record<
   string,
@@ -180,5 +187,64 @@ export const document = <TGeneratedListTypes extends BaseGeneratedListTypes>(
       };
     },
     views,
+    experimental: fieldType({ kind: 'scalar', mode: 'optional', scalar: 'String' })({
+      input: {
+        create: {
+          arg: types.arg({ type: types.JSON }),
+          resolve(value) {
+            if (value == null) return value;
+            return JSON.stringify(
+              validateAndNormalizeDocument(value, documentFeatures, componentBlocks, relationships)
+            );
+          },
+        },
+        update: {
+          arg: types.arg({ type: types.JSON }),
+          resolve(value) {
+            if (value == null) return value;
+            return JSON.stringify(
+              validateAndNormalizeDocument(value, documentFeatures, componentBlocks, relationships)
+            );
+          },
+        },
+      },
+      output: types.field({
+        type: documentFieldThing,
+        resolve({ value }, args, context) {
+          let val: any;
+          try {
+            val = JSON.parse(value || '');
+          } catch (err) {}
+          if (!Array.isArray(val)) return null;
+          return {
+            document: (hydrateRelationships: boolean) =>
+              hydrateRelationships
+                ? addRelationshipData(
+                    val,
+                    (context as any).graphql,
+                    relationships,
+                    componentBlocks,
+                    listKey => (context as any).keystone.lists[listKey].gqlNames
+                  )
+                : val,
+          };
+        },
+      }),
+    }),
   };
 };
+
+const documentFieldThing = types.object<{ document: (hydrateRelationships: boolean) => any }>()({
+  name: 'DocumentField',
+  fields: {
+    document: types.field({
+      type: types.JSON,
+      args: {
+        hydrateRelationships: types.arg({ type: types.Boolean }),
+      },
+      resolve(rootVal, { hydrateRelationships }) {
+        return rootVal.document(!!hydrateRelationships);
+      },
+    }),
+  },
+});

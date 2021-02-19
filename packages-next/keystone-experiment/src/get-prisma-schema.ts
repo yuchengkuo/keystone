@@ -1,6 +1,6 @@
 import { assertNever, ListForExperiment, RealDBField } from '@keystone-next/types';
 
-export function generatePrismaSchemaFromModels(models: Record<string, ListForExperiment>) {
+export function generatePrismaSchemaFromModels(lists: Record<string, ListForExperiment>) {
   let enums: string[] = [];
 
   return `
@@ -13,7 +13,7 @@ export function generatePrismaSchemaFromModels(models: Record<string, ListForExp
     provider = "prisma-client-js"
   }
   
-  ${Object.entries(models)
+  ${Object.entries(lists)
     .map(([listKey, { fields }]) => {
       const flattenedDBFields = Object.fromEntries(
         Object.entries(fields).flatMap(([fieldPath, { dbField }]): [string, RealDBField][] => {
@@ -47,7 +47,7 @@ export function generatePrismaSchemaFromModels(models: Record<string, ListForExp
               }
               case 'relation': {
                 const foreignField =
-                  models[dbField.relation.model].fields[dbField.relation.field].dbField;
+                  lists[dbField.relation.model].fields[dbField.relation.field].dbField;
                 if (foreignField.kind !== 'relation') {
                   throw new Error(
                     `The field at ${listKey}.${key} is a relation to ${dbField.relation.model}.${dbField.relation.field} but that field is not a relation`

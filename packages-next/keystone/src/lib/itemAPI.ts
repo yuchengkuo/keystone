@@ -24,14 +24,14 @@ export function getArgsFactory(list: BaseKeystoneList, schema: GraphQLSchema) {
   const f = getCoerceAndValidateArgumentsFnForGraphQLField;
   return {
     findOne: f(schema, queryFields[list.gqlNames.itemQueryName]),
-    findMany: f(schema, queryFields[list.gqlNames.listQueryName]),
-    count: f(schema, queryFields[list.gqlNames.listQueryMetaName]),
-    createOne: f(schema, mutationFields[list.gqlNames.createMutationName]),
-    createMany: f(schema, mutationFields[list.gqlNames.createManyMutationName]),
-    updateOne: f(schema, mutationFields[list.gqlNames.updateMutationName]),
-    updateMany: f(schema, mutationFields[list.gqlNames.updateManyMutationName]),
-    deleteOne: f(schema, mutationFields[list.gqlNames.deleteMutationName]),
-    deleteMany: f(schema, mutationFields[list.gqlNames.deleteManyMutationName]),
+    // findMany: f(schema, queryFields[list.gqlNames.listQueryName]),
+    // // count: f(schema, queryFields[list.gqlNames.listQueryMetaName]),
+    // createOne: f(schema, mutationFields[list.gqlNames.createMutationName]),
+    // // createMany: f(schema, mutationFields[list.gqlNames.createManyMutationName]),
+    // updateOne: f(schema, mutationFields[list.gqlNames.updateMutationName]),
+    // updateMany: f(schema, mutationFields[list.gqlNames.updateManyMutationName]),
+    // deleteOne: f(schema, mutationFields[list.gqlNames.deleteMutationName]),
+    // deleteMany: f(schema, mutationFields[list.gqlNames.deleteManyMutationName]),
   };
 }
 

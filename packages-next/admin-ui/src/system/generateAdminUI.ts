@@ -63,7 +63,7 @@ export const generateAdminUI = async (
 
   // Write out the built-in admin UI files. Don't overwrite any user-defined pages.
   const configFileExists = getDoesAdminConfigExist();
-  const adminFiles = writeAdminFiles(
+  const adminFiles = await writeAdminFiles(
     config,
     graphQLSchema,
     keystone,

@@ -54,6 +54,7 @@ export type DatabaseCommon = {
 
 export type DatabaseConfig = DatabaseCommon &
   (
+    | { adapter: 'experimental' }
     | {
         adapter: 'prisma_postgresql';
         enableLogging?: boolean;

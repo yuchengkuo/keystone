@@ -8,3 +8,4 @@ export { mongoId } from './types/mongoId';
 export { autoIncrement } from './types/autoIncrement';
 export { select } from './types/select';
 export { virtual } from './types/virtual';
+export { uuid } from './types/uuid';
