@@ -1,6 +1,6 @@
 // @ts-ignore
 import { AutoIncrement } from '@keystonejs/fields-auto-increment';
-import type { FieldType, BaseGeneratedListTypes, FieldDefaultValue } from '@keystone-next/types';
+import { FieldType, BaseGeneratedListTypes, FieldDefaultValue } from '@keystone-next/types';
 import { resolveView } from '../../resolve-view';
 import type { FieldConfig } from '../../interfaces';
 
@@ -19,4 +19,5 @@ export const autoIncrement = <TGeneratedListTypes extends BaseGeneratedListTypes
   type: AutoIncrement,
   config,
   views: resolveView('integer/views'),
+  experimental: undefined as any,
 });

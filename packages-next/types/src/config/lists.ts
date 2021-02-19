@@ -3,6 +3,7 @@ import type { ListAccessControl, FieldAccessControl } from './access-control';
 
 import { AdminMetaRootVal } from '../admin-meta';
 import type { BaseGeneratedListTypes, MaybePromise, JSONValue } from '../utils';
+import { DBField, ExperimentFieldType } from '../experiment';
 
 export type ListSchemaConfig = Record<string, ListConfig<BaseGeneratedListTypes, any>>;
 
@@ -174,6 +175,7 @@ export type FieldType<TGeneratedListTypes extends BaseGeneratedListTypes> = {
    */
   views: string;
   getAdminMeta?: (listKey: string, path: string, adminMeta: AdminMetaRootVal) => JSONValue;
+  experimental: ExperimentFieldType<DBField, any, any, any>;
 };
 
 export type FieldConfig<TGeneratedListTypes extends BaseGeneratedListTypes> = {

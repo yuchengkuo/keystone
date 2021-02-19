@@ -19,4 +19,5 @@ export const mongoId = <TGeneratedListTypes extends BaseGeneratedListTypes>(
   type: MongoId,
   config,
   views: resolveView('mongoId/views'),
+  experimental: undefined as any,
 });

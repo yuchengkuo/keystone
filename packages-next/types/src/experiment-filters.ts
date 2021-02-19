@@ -1,4 +1,4 @@
-import { types } from '@keystone-next/types';
+import { types } from './experiment';
 import * as tsgql from '@ts-gql/schema';
 
 const caseSensitivityEnum = types.enum({
@@ -141,15 +141,6 @@ export const getEnumFilter = (name: string, enumType: BasicStringEnum): EnumFilt
     }),
   });
   return enumFilterType;
-};
-
-export const prismaScalarsToGraphQLScalars = {
-  String: types.String,
-  Boolean: types.Boolean,
-  Int: types.Int,
-  Float: types.Float,
-  DateTime: types.String,
-  Json: types.JSON,
 };
 
 export const scalarFilters = {

@@ -1,4 +1,3 @@
-import { prismaScalarsToGraphQLScalars } from './filters';
 import { runInputResolvers } from './input-resolvers';
 import * as tsgql from '@ts-gql/schema';
 import {
@@ -16,6 +15,15 @@ const sortDirectionEnum = types.enum({
   name: 'SortDirection',
   values: types.enumValues(['asc', 'desc']),
 });
+
+const prismaScalarsToGraphQLScalars = {
+  String: types.String,
+  Boolean: types.Boolean,
+  Int: types.Int,
+  Float: types.Float,
+  DateTime: types.String,
+  Json: types.JSON,
+};
 
 const fromEntriesButTypedWell: <Key extends string | number | symbol, Val>(
   iterable: Iterable<readonly [Key, Val]>
