@@ -3100,6 +3100,13 @@
   dependencies:
     object-assign "^4.1.1"
 
+"@prisma/cli@2.16.1":
+  version "2.16.1"
+  resolved "https://registry.yarnpkg.com/@prisma/cli/-/cli-2.16.1.tgz#28a849c3e793472857fe123c48bfb038f7e80362"
+  integrity sha512-nVw8gs+o6bZ1CbaYzKmPcy2I4MJcP7FW7/4PkLgvy9v3/EWd9CKfSUX9b6cMq3uK9Jxa5kTejwNQkLHnihzxrg==
+  dependencies:
+    "@prisma/engines" "2.16.1-1.8b74ad57aaf2cc6c155f382a18a8e3ba95aceb03"
+
 "@prisma/client@2.16.1":
   version "2.16.1"
   resolved "https://registry.yarnpkg.com/@prisma/client/-/client-2.16.1.tgz#3aed1506f4090734735d1036bfdaee997032e793"
@@ -3182,6 +3189,27 @@
   integrity sha512-VREZXBcNxM7QMO11ubd2BvBZtHp5z60T7VwwdkELmHLpda6cN+pKGyBly77ALeSlu/Z2BEAuL4FqGqjoDoUIjw==
   dependencies:
     "@prisma/debug" "2.16.1"
+
+"@prisma/migrate@2.16.1":
+  version "2.16.1"
+  resolved "https://registry.yarnpkg.com/@prisma/migrate/-/migrate-2.16.1.tgz#c60dbc2d3d47d04e4deb0e233301f5126b18c762"
+  integrity sha512-fZffSJ8/iNeA4JYseEo3m4PNMgBGLNbIAMtyOqLLyB5ja5JTtbLzhjaCeQcKUD8x8FfolWpzEg10OqjIhIyNig==
+  dependencies:
+    "@prisma/debug" "2.16.1"
+    "@prisma/get-platform" "2.16.1"
+    "@sindresorhus/slugify" "^1.1.0"
+    diff "4.0.2"
+    execa "^5.0.0"
+    global-dirs "^3.0.0"
+    has-yarn "^2.1.0"
+    indent-string "^4.0.0"
+    log-update "^4.0.0"
+    new-github-issue-url "^0.2.1"
+    open "^7.0.3"
+    prompts "^2.3.2"
+    resolve-pkg "^2.0.0"
+    strip-ansi "^6.0.0"
+    strip-indent "^3.0.0"
 
 "@prisma/sdk@2.16.1":
   version "2.16.1"
@@ -3605,10 +3633,10 @@
   resolved "https://registry.yarnpkg.com/@tootallnate/once/-/once-1.1.2.tgz#ccb91445360179a04e7fe6aff78c00ffc1eeaf82"
   integrity sha512-RbzJvlNzmRq5c3O09UipeuXno4tA1FE6ikOjxZK0tuxVv3412l64l5t1W5pj4+rJq9vpkm/kwiR07aZXnsKPxw==
 
-"@ts-gql/schema@^0.3.1":
-  version "0.3.1"
-  resolved "https://registry.yarnpkg.com/@ts-gql/schema/-/schema-0.3.1.tgz#28b9dca11353c766d60a9c826a09213ca5cbf1d0"
-  integrity sha512-pJA4Yml7Ckd+Svc2wqJx0JOzhSYG/nU1ppio3bmvRnKLCePDbeSoPBBQJvLSHitQffKzNJ//j/b1JmX0d1CSEg==
+"@ts-gql/schema@^0.5.0":
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/@ts-gql/schema/-/schema-0.5.0.tgz#52d1fcdafeeb7d9ff0147222e93c0f3b7a61e6e4"
+  integrity sha512-uej3MZetLTduNrfkLhseotEQ2JXs2Qz4aQEOtDGMCW3dFM/X22W5+T5EzfW+pD9PS+BKk3dIWW2iaXGg4STyqQ==
   dependencies:
     "@babel/runtime" "^7.9.2"
 
@@ -5158,7 +5186,7 @@ ansi-escapes@^3.0.0, ansi-escapes@^3.2.0:
   resolved "https://registry.yarnpkg.com/ansi-escapes/-/ansi-escapes-3.2.0.tgz#8780b98ff9dbf5638152d1f1fe5c1d7b4442976b"
   integrity sha512-cBhpre4ma+U0T1oM5fXg7Dy1Jw7zzwv7lt/GoCpr+hDQJoYnKVPLL4dCvSEFMmQurOQvSrwT7SL/DAlhBI97RQ==
 
-ansi-escapes@^4.2.1:
+ansi-escapes@^4.2.1, ansi-escapes@^4.3.0:
   version "4.3.1"
   resolved "https://registry.yarnpkg.com/ansi-escapes/-/ansi-escapes-4.3.1.tgz#a5c47cc43181f1f38ffd7076837700d395522a61"
   integrity sha512-JWF7ocqNrp8u9oqpgV+wH5ftbt+cfvv+PTjOvKLT3AdYly/LmORARfEVT1iyjwN+4MqE5UmVKoAdIBqeoCHgLA==
@@ -9374,6 +9402,11 @@ diff-sequences@^26.6.2:
   version "26.6.2"
   resolved "https://registry.yarnpkg.com/diff-sequences/-/diff-sequences-26.6.2.tgz#48ba99157de1923412eed41db6b6d4aa9ca7c0b1"
   integrity sha512-Mv/TDa3nZ9sbc5soK+OoA74BsS3mL37yixCvUAQkiuA4Wz6YtwP/K47n2rv2ovzHZvoiQeA5FTQOschKkEwB0Q==
+
+diff@4.0.2:
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/diff/-/diff-4.0.2.tgz#60f3aecb89d5fae520c11aa19efc2bb982aade7d"
+  integrity sha512-58lmxKSA4BNyLz+HHMUzlOEpg09FV+ev6ZMe3vJihgdxzgcwZ8VoEEPmALCZG9LmqfVoNMMKpttIYTVG6uDY7A==
 
 diff@5.0.0:
   version "5.0.0"
@@ -14757,7 +14790,7 @@ is-wsl@^1.1.0:
   resolved "https://registry.yarnpkg.com/is-wsl/-/is-wsl-1.1.0.tgz#1f16e4aa22b04d1336b66188a66af3c600c3a66d"
   integrity sha1-HxbkqiKwTRM2tmGIpmrzxgDDpm0=
 
-is-wsl@^2.2.0:
+is-wsl@^2.1.1, is-wsl@^2.2.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/is-wsl/-/is-wsl-2.2.0.tgz#74a4c76e77ca9fd3f932f290c17ea326cd157271"
   integrity sha512-fKzAra0rGJUUBwGBgNkHZuToZcn+TtXHpeCgmkMJMMYx1sQDYaCSyjJBSCa2nH1DGm7s3n1oBnohoVTBaN7Lww==
@@ -16275,6 +16308,16 @@ log-update@^3.0.0:
     ansi-escapes "^3.2.0"
     cli-cursor "^2.1.0"
     wrap-ansi "^5.0.0"
+
+log-update@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/log-update/-/log-update-4.0.0.tgz#589ecd352471f2a1c0c570287543a64dfd20e0a1"
+  integrity sha512-9fkkDevMefjg0mmzWFBW8YkFP91OrizzkW3diF7CpG+S2EYdy4+TVfGwz1zeF8x7hCx1ovSPTOE9Ngib74qqUg==
+  dependencies:
+    ansi-escapes "^4.3.0"
+    cli-cursor "^3.1.0"
+    slice-ansi "^4.0.0"
+    wrap-ansi "^6.2.0"
 
 logalot@^2.0.0, logalot@^2.1.0:
   version "2.1.0"
@@ -18532,6 +18575,14 @@ onetime@^5.1.0, onetime@^5.1.2:
   dependencies:
     mimic-fn "^2.1.0"
 
+open@^7.0.3:
+  version "7.4.2"
+  resolved "https://registry.yarnpkg.com/open/-/open-7.4.2.tgz#b8147e26dcf3e426316c730089fd71edd29c2321"
+  integrity sha512-MVHddDVweXZF3awtlAS+6pgKLlm/JgxZ90+/NBurBoQctVOOB/zDdVjcyPzQ+0laDGbsWgrRkflI65sQeOgT9Q==
+  dependencies:
+    is-docker "^2.0.0"
+    is-wsl "^2.1.1"
+
 opener@1.5.2, opener@^1.5.1:
   version "1.5.2"
   resolved "https://registry.yarnpkg.com/opener/-/opener-1.5.2.tgz#5d37e1f35077b9dcac4301372271afdeb2a13598"
@@ -20767,7 +20818,7 @@ promisify-call@^2.0.2:
   dependencies:
     with-callback "^1.0.2"
 
-prompts@^2.0.1, prompts@^2.1.0, prompts@^2.4.0:
+prompts@^2.0.1, prompts@^2.1.0, prompts@^2.3.2, prompts@^2.4.0:
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/prompts/-/prompts-2.4.0.tgz#4aa5de0723a231d1ee9121c40fdf663df73f61d7"
   integrity sha512-awZAKrk3vN6CroQukBL+R9051a4R3zCZBlJm/HBfrSZ8iTpYix3VX1vU4mveiLpiwmOJT4wokTF9m6HUk4KqWQ==

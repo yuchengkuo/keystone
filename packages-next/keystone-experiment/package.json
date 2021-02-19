@@ -1,0 +1,26 @@
+{
+  "name": "@keystone-next/experiment",
+  "version": "1.0.0",
+  "main": "dist/experiment.cjs.js",
+  "module": "dist/experiment.esm.js",
+  "files": [
+    "dist",
+    "test"
+  ],
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "@babel/runtime": "^7.12.13",
+    "@emotion/weak-memoize": "^0.2.5",
+    "@keystone-next/types": "^13.0.0",
+    "@prisma/cli": "2.16.1",
+    "@prisma/client": "2.16.1",
+    "@prisma/migrate": "2.16.1",
+    "@prisma/sdk": "2.16.1",
+    "@ts-gql/schema": "^0.5.0",
+    "@types/fs-extra": "^9.0.7",
+    "fs-extra": "^9.1.0",
+    "graphql": "^15.5.0"
+  },
+  "repository": "https://github.com/keystonejs/keystone/tree/master/packages-next/keystone-experiment"
+}
