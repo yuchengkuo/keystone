@@ -144,7 +144,8 @@
       "packages-next/*",
       "design-system/packages/*",
       "design-system/website",
-      "docs-next"
+      "docs-next",
+      "tutorials/*"
     ],
     "nohoist": [
       "**/cypress-multi-reporters"
@@ -169,7 +170,8 @@
       "packages/fields-color",
       "packages/fields",
       "packages-next/*",
-      "design-system/packages/*"
+      "design-system/packages/*",
+      "tutorials/*"
     ],
     "distFilenameStrategy": "unscoped-package-name"
   },

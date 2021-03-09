@@ -19,6 +19,8 @@
     "@keystone-ui/notice": "^2.0.1",
     "@keystone-ui/toast": "^2.0.1",
     "@keystone-ui/tooltip": "^2.0.1",
+    "@manypkg/find-root": "^1.1.0",
+    "@manypkg/get-packages": "^1.1.1",
     "@mdx-js/loader": "^1.6.22",
     "@mdx-js/react": "^1.6.22",
     "@next/mdx": "^10.0.8",
