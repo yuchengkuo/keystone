@@ -1,6 +1,7 @@
 {
-  "name": "basic-keystone-tutorial",
+  "name": "@keystone-tutorials/roles-based-authentication",
   "version": "1.0.0",
+  "private": true,
   "main": "index.js",
   "license": "MIT"
 }

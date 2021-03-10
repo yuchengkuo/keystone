@@ -5,6 +5,8 @@ import { Markdown } from '../../components/Page';
 export async function getStaticProps({ params }) {
   //   const { contentHTML, ...data } = await getPostData(params.id);
   //   const source = await renderToString(contentHTML);
+  //   remark
+  //   next-remote-mdx
   return {
     props: {
       //   postData: {
