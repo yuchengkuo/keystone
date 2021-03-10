@@ -1,26 +1,14 @@
 import path from 'path';
 import { getPackages } from '@manypkg/get-packages';
+import fs from 'fs-extra';
 
 export async function getTutorialData(id) {
   const tutorialDir = await getPackages(process.cwd()).then(({ packages }) => {
-    return packages.find(pkg => pkg.packageJson.name === id).dir;
+    return packages.find(pkg => pkg.packageJson.name === `@keystone-tutorials/${id}`).dir;
   });
 
-  //   const fullPath = path.join(postsDirectory, `${id}.mdx`);
-  //   const fileContents = fs.readFileSync(fullPath, 'utf-8');
-  //   const { data } = matter(fileContents);
-  //   const jsx = await mdx(fileContents);
-  // const processedContent = await remark()
-  //   .use(html)
-  //   .process(matterResult.content);
-
-  // const contentHTML = processedContent.toString();
-  //   return {
-  //     id,
-  //     contentHTML: jsx,
-  //     ...data,
-  //   };
-  return undefined;
+  const markdown = fs.readFileSync(path.resolve(tutorialDir, 'docs', 'index.mdx'), 'utf-8');
+  return markdown;
 }
 
 export async function getTutorialIds() {
@@ -29,10 +17,12 @@ export async function getTutorialIds() {
       .filter(pkg => pkg.dir.includes(path.resolve(root.dir, 'tutorials')))
       .map(pkg => ({
         params: {
-          slug: pkg.packageJson.name,
+          slug: pkg.packageJson.name.replace('@keystone-tutorials/', ''),
         },
       }));
   });
+
+  console.log(tutorialIds);
 
   return tutorialIds;
 }

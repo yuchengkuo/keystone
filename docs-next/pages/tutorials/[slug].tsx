@@ -1,9 +1,10 @@
 /** @jsx jsx */
 import { jsx } from '@keystone-ui/core';
-import { getTutorialIds } from '../../lib/tutorials';
+import { getTutorialIds, getTutorialData } from '../../lib/tutorials';
 import { Markdown } from '../../components/Page';
 export async function getStaticProps({ params }) {
-  //   const { contentHTML, ...data } = await getPostData(params.id);
+  console.log(params);
+  const content = await getTutorialData(params.slug);
   //   const source = await renderToString(contentHTML);
   //   remark
   //   next-remote-mdx
@@ -26,5 +27,5 @@ export async function getStaticPaths() {
 }
 
 export default function Tutorial({ children }) {
-  return <Markdown>{children}</Markdown>;
+  return 'HELLO WORLD';
 }
