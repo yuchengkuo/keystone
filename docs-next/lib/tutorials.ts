@@ -1,6 +1,9 @@
 import path from 'path';
 import { getPackages } from '@manypkg/get-packages';
 import fs from 'fs-extra';
+import renderToString from 'next-mdx-remote/render-to-string';
+import { components } from '../components/Page';
+import matter from 'gray-matter';
 
 export async function getTutorialData(id) {
   const tutorialDir = await getPackages(process.cwd()).then(({ packages }) => {
@@ -8,7 +11,11 @@ export async function getTutorialData(id) {
   });
 
   const markdown = fs.readFileSync(path.resolve(tutorialDir, 'docs', 'index.mdx'), 'utf-8');
-  return markdown;
+
+  const { content, data } = matter(markdown);
+  const children = await renderToString(content, { components, scope: data });
+
+  return { children, data };
 }
 
 export async function getTutorialIds() {
@@ -21,8 +28,6 @@ export async function getTutorialIds() {
         },
       }));
   });
-
-  console.log(tutorialIds);
 
   return tutorialIds;
 }
