@@ -8,11 +8,8 @@ import matter from 'gray-matter';
 export async function getTutorialData(slug) {
   try {
     const cache = JSON.parse(fs.readFileSync(path.resolve(process.cwd(), '.cache'), 'utf-8'));
-    console.log(cache);
     const { content, data } = cache[slug];
-    console.log(content, data);
     const children = await renderToString(content, { components, scope: data });
-    console.log(children);
     return { children, data };
   } catch (e) {
     return null;
@@ -40,7 +37,12 @@ export async function getTutorialIds() {
       pkg.dir.includes(path.resolve(root.dir, 'tutorials'))
     );
 
-    cacheToDisk(relevantPackages);
+    // We claer this before every new build, so this file should only not exist
+    // when a new build is generated.
+    // All other times we should be able to safely rely on the resultant file.
+    if (!fs.existsSync(path.resolve(process.cwd(), '.cache'))) {
+      cacheToDisk(relevantPackages);
+    }
 
     return relevantPackages.map(pkg => {
       return {
