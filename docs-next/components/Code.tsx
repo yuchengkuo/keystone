@@ -18,6 +18,9 @@ export const Code = ({ children, className }: { children: string; className: any
           line-height: 24px; !important;
           color: rgb(39 39 42);
         }
+        pre > code {
+          color: rgb(39 39 42) !important;
+        }
       `}
     >
       <SyntaxHighlighter language={language}>{children.trim()}</SyntaxHighlighter>
