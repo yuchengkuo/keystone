@@ -1,20 +1,17 @@
 import path from 'path';
 import { getPackages } from '@manypkg/get-packages';
 import fs from 'fs-extra';
-import renderToString from 'next-mdx-remote/render-to-string';
-import { components } from '../components/Page';
+// import renderToString from 'next-mdx-remote/render-to-string';
+// import { components } from '../components/Page';
 import matter from 'gray-matter';
 
 export async function getTutorialData(slug) {
   try {
     const cache = JSON.parse(fs.readFileSync(path.resolve(process.cwd(), '.cache'), 'utf-8'));
-    console.log(cache);
     const { content, data } = cache[slug];
-    console.log(content, data);
-    const children = await renderToString(content, { components, scope: data });
-    console.log(children);
-    return { children, data };
+    return { content, data };
   } catch (e) {
+    console.log(e);
     return null;
   }
 }
@@ -39,8 +36,9 @@ export async function getTutorialIds() {
     const relevantPackages = packages.filter(pkg =>
       pkg.dir.includes(path.resolve(root.dir, 'tutorials'))
     );
-
-    cacheToDisk(relevantPackages);
+    if (!fs.existsSync(path.resolve(process.cwd(), '.cache'))) {
+      cacheToDisk(relevantPackages);
+    }
 
     return relevantPackages.map(pkg => {
       return {

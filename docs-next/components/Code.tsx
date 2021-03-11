@@ -1,35 +1,29 @@
 /** @jsx jsx */
 import { ReactNode } from 'react';
 import { jsx, css } from '@keystone-ui/core';
-import Highlight, { Language, Prism } from 'prism-react-renderer';
-import theme from '../lib/prism-theme';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 
 export const Code = ({ children, className }: { children: string; className: any }) => {
-  const language: Language = className ? className.replace(/language-/, '') : 'typescript';
+  const language: string = className ? className.replace(/language-/, '') : 'typescript';
+  // I'm so sorry, but this is the only way.
+  console.log(SyntaxHighlighter.supportedLanguages);
   return (
-    <Highlight Prism={Prism} code={children.trim()} language={language} theme={theme}>
-      {({ className, style, tokens: tokens, getLineProps, getTokenProps }) => {
-        return (
-          <div
-            className={className}
-            style={{
-              ...style,
-              backgroundColor: 'transparent !important',
-            }}
-          >
-            {tokens.map((line, i) => {
-              return (
-                <div key={i} {...getLineProps({ line, key: i })}>
-                  {line.map((token, key) => (
-                    <span key={key} {...getTokenProps({ token, key })} />
-                  ))}
-                </div>
-              );
-            })}
-          </div>
-        );
-      }}
-    </Highlight>
+    <div
+      css={css`
+        background-color: transparent !important;
+        pre, pre code, pre code span {
+          background-color: transparent !important;
+          margin: 0 !important;
+          padding: 0 !important;
+          font-family: monospace, monospace;
+          font-size: 14px !important;
+          line-height: 24px; !important;
+          color: rgb(39 39 42);
+        }
+      `}
+    >
+      <SyntaxHighlighter language={language}>{children.trim()}</SyntaxHighlighter>
+    </div>
   );
 };
 

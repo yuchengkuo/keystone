@@ -75,6 +75,9 @@ export const Navigation = () => {
           List Item API
         </NavItem>
       </Section>
+      <Section label="Tutorials">
+        <NavItem href="/tutorials/role-based-authentication">Role Based Authentication</NavItem>
+      </Section>
     </nav>
   );
 };

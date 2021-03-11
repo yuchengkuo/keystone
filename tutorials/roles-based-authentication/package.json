@@ -4,5 +4,8 @@
   "private": true,
   "main": "dist/roles-based-authentication.cjs.js",
   "license": "MIT",
-  "repository": "https://github.com/keystonejs/keystone/tree/master/tutorials/roles-based-authentication"
+  "repository": "https://github.com/keystonejs/keystone/tree/master/tutorials/roles-based-authentication",
+  "dependencies": {
+    "@keystone-ui/core": "^2.0.1"
+  }
 }

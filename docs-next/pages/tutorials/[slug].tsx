@@ -1,13 +1,14 @@
 /** @jsx jsx */
 import { jsx } from '@keystone-ui/core';
 import { getTutorialIds, getTutorialData } from '../../lib/tutorials';
-import { Page } from '../../components/Page';
-import { hydrate } from '../../components/_utils';
+import unified from 'unified';
+import parse from 'remark-parse';
+import remark2react from 'remark-react';
+import { Page, components } from '../../components/Page';
 
 export async function getStaticProps({ params: { slug } }) {
-  const { children, data } = await getTutorialData(slug);
-  console.log('WHAT TEH FUCK', children, data);
-  return { props: { children, data } };
+  const { content, data } = await getTutorialData(slug);
+  return { props: { content, data } };
 }
 
 export async function getStaticPaths() {
@@ -19,11 +20,16 @@ export async function getStaticPaths() {
   };
 }
 
-export default function Tutorial({ children, data }) {
-  const content = hydrate(children);
+export default function Tutorial({ content, data }) {
+  // const { code, ...rest } = components;
   return (
     <Page {...data} isProse>
-      {content}
+      {
+        unified()
+          .use(parse)
+          .use(remark2react, { remarkReactComponents: components })
+          .processSync(content).result
+      }
     </Page>
   );
 }
