@@ -5,8 +5,6 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 
 export const Code = ({ children, className }: { children: string; className: any }) => {
   const language: string = className ? className.replace(/language-/, '') : 'typescript';
-  // I'm so sorry, but this is the only way.
-  console.log(SyntaxHighlighter.supportedLanguages);
   return (
     <div
       css={css`
@@ -15,7 +13,7 @@ export const Code = ({ children, className }: { children: string; className: any
           background-color: transparent !important;
           margin: 0 !important;
           padding: 0 !important;
-          font-family: monospace, monospace;
+          font-family: monospace, monospace !important;
           font-size: 14px !important;
           line-height: 24px; !important;
           color: rgb(39 39 42);
