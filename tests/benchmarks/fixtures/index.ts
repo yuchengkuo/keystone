@@ -5,3 +5,5 @@ const groups = [...require('./create'), ...require('./create-related'), ...requi
     await groups[i].runFixtures();
   }
 })();
+
+export {}

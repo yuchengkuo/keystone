@@ -1,23 +1,26 @@
-const { text, relationship } = require('@keystone-next/fields');
-const { list, createSchema } = require('@keystone-next/keystone/schema');
-const { setupTestRunner } = require('@keystone-next/testing');
-const { apiTestConfig } = require('../../utils.ts');
-const { FixtureGroup, timeQuery, populate, range } = require('../lib/utils');
+import { text, relationship } from '@keystone-next/fields';
+import { list } from '@keystone-next/keystone/schema';
+import { ProviderName, setupFromConfig, testConfig } from '@keystone-next/test-utils-legacy';
+import { KeystoneContext } from '@keystone-next/types';
+import { FixtureGroup, timeQuery, populate, range } from '../lib/utils';
 
-const runner = setupTestRunner({
-  config: apiTestConfig({
-    lists: createSchema({
-      User: list({
-        fields: {
-          name: text(),
-          posts: relationship({ ref: 'Post', many: true }),
-        },
-      }),
-      Post: list({
-        fields: {
-          title: text(),
-        },
-      }),
+function setupKeystone(provider: ProviderName) {
+  return setupFromConfig({
+    provider,
+    config: testConfig({
+      lists: {
+        User: list({
+          fields: {
+            name: text(),
+            posts: relationship({ ref: 'Post', many: true }),
+          },
+        }),
+        Post: list({
+          fields: {
+            title: text(),
+          },
+        }),
+      },
     }),
   }),
 });
@@ -25,7 +28,7 @@ const runner = setupTestRunner({
 const group = new FixtureGroup(runner);
 
 group.add({
-  fn: async ({ context, provider }) => {
+  fn: async ({ context, provider }: { context: KeystoneContext; provider: ProviderName }) => {
     const query = `
     mutation {
       createUser(data: { name: "test", posts: { create: [] } }) { id }
@@ -36,7 +39,7 @@ group.add({
 });
 
 group.add({
-  fn: async ({ context, provider }) => {
+  fn: async ({ context, provider }: { context: KeystoneContext; provider: ProviderName }) => {
     const query = `
     mutation {
       createUser(data: { name: "test", posts: { create: [] } }) { id }
@@ -50,7 +53,7 @@ range(14).forEach(i => {
   const N = 1;
   const M = 2 ** i;
   group.add({
-    fn: async ({ context, provider }) => {
+    fn: async ({ context, provider }: { context: KeystoneContext; provider: ProviderName }) => {
       const query = `
       mutation createMany($users: [UserCreateInput!]!){
         createUsers(data: $users) { id }
@@ -73,7 +76,7 @@ range(k).forEach(i => {
   const N = 2 ** i;
   const M = 2 ** (k - 1 - i);
   group.add({
-    fn: async ({ context, provider }) => {
+    fn: async ({ context, provider }: { context: KeystoneContext; provider: ProviderName }) => {
       const query = `
       mutation createMany($users: [UserCreateInput!]!){
         createUsers(data: $users) { id }
