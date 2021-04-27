@@ -6,4 +6,4 @@ const groups = [...require('./create'), ...require('./create-related'), ...requi
   }
 })();
 
-export {}
+export {};

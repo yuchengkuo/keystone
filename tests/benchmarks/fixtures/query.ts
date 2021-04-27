@@ -1,8 +1,8 @@
 import { text, relationship } from '@keystone-next/fields';
 import { list } from '@keystone-next/keystone/schema';
 import { ProviderName, setupFromConfig, testConfig } from '@keystone-next/test-utils-legacy';
-import { FixtureGroup, timeQuery, populate, range } from '../lib/utils';
 import { KeystoneContext } from '@keystone-next/types';
+import { FixtureGroup, timeQuery, populate, range } from '../lib/utils';
 
 function setupKeystone(provider: ProviderName) {
   return setupFromConfig({
