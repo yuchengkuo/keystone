@@ -1,4 +1,7 @@
-const groups = [...require('./create'), ...require('./create-related'), ...require('./query')];
+import { group } from './create';
+// const groups = [create.group, ...require('./create-related'), ...require('./query')];
+const groups = [group];
+
 
 (async () => {
   for (let i = 0; i < groups.length; i++) {
@@ -6,4 +9,4 @@ const groups = [...require('./create'), ...require('./create-related'), ...requi
   }
 })();
 
-export {};
+// export {};

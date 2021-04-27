@@ -19,7 +19,7 @@ function setupKeystone(provider: ProviderName) {
   }),
 });
 
-const group = new FixtureGroup(runner);
+export const group = new FixtureGroup(setupKeystone);
 
 group.add({
   fn: async ({ context, provider }: { context: KeystoneContext; provider: ProviderName }) => {
@@ -57,5 +57,3 @@ range(15).forEach(i => {
     },
   });
 });
-
-module.exports = [group];
