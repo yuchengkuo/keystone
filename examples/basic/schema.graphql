@@ -49,22 +49,33 @@ type LocalFileFieldOutput implements FileFieldOutput {
   src: String!
 }
 
+# setting to null is an error
 input PhoneNumberRelateToManyInput {
-  create: [PhoneNumberCreateInput]
-  connect: [PhoneNumberWhereUniqueInput]
-  disconnect: [PhoneNumberWhereUniqueInput]
-  disconnectAll: Boolean
+  create: [PhoneNumberCreateInput!]! = []
+  connect: [PhoneNumberWhereUniqueInput!]! = []
+  # would not exist for create
+  update: [UpdatePhoneNumberArgs!]! = []
+  delete: [PhoneNumberWhereUniqueInput!]! = []
+  disconnect: [PhoneNumberWhereUniqueInput!]! = []
+  disconnectAll: Boolean! = false
+  deleteAll: Boolean! = false
 }
 
-input PostRelateToManyInput {
-  create: [PostCreateInput]
-  connect: [PostWhereUniqueInput]
-  disconnect: [PostWhereUniqueInput]
+input PostRelateToManyForCreateInput {
+  create: [PostCreateInput!]
+  connect: [PostWhereUniqueInput!]
+  set: [PostWhereUniqueInput!]
+}
+
+input PostRelateToManyForUpdateInput {
+  create: [PostCreateInput!]
+  connect: [PostWhereUniqueInput!]
+  disconnect: [PostWhereUniqueInput!]
   disconnectAll: Boolean
 }
 
 """
- A keystone list
+A keystone list
 """
 type User {
   id: ID!
@@ -83,7 +94,7 @@ type User {
     first: Int
     skip: Int
   ): [PhoneNumber!]!
-  _phoneNumbersMeta(
+  countPhoneNumbers(
     where: PhoneNumberWhereInput
     search: String
     sortBy: [SortPhoneNumbersBy!]
@@ -108,6 +119,12 @@ type User {
     skip: Int
   ): _QueryMeta
   randomNumber: Float
+}
+
+
+# throw on null where null is not explicitly allowed in prisma
+input TextFilter {
+
 }
 
 input UserWhereInput {
@@ -144,55 +161,50 @@ input UserWhereInput {
   roles_not_in: [String]
 
   """
-   condition must be true for all nodes
+  condition must be true for all nodes
   """
   phoneNumbers_every: PhoneNumberWhereInput
 
   """
-   condition must be true for at least 1 node
+  condition must be true for at least 1 node
   """
   phoneNumbers_some: PhoneNumberWhereInput
 
   """
-   condition must be false for all nodes
+  condition must be false for all nodes
   """
   phoneNumbers_none: PhoneNumberWhereInput
 
   """
-   condition must be true for all nodes
+  condition must be true for all nodes
   """
   posts_every: PostWhereInput
 
   """
-   condition must be true for at least 1 node
+  condition must be true for at least 1 node
   """
   posts_some: PostWhereInput
 
   """
-   condition must be false for all nodes
+  condition must be false for all nodes
   """
   posts_none: PostWhereInput
 }
 
+# throw if the number of keys is not exactly 1
 input UserWhereUniqueInput {
-  id: ID!
+  id: ID
+  username: String
 }
 
-enum SortUsersBy {
-  id_ASC
-  id_DESC
-  name_ASC
-  name_DESC
-  email_ASC
-  email_DESC
-  isAdmin_ASC
-  isAdmin_DESC
-  roles_ASC
-  roles_DESC
-  phoneNumbers_ASC
-  phoneNumbers_DESC
-  posts_ASC
-  posts_DESC
+query {
+  allUsers(orderBy: [{ id: null }])
+}
+
+input UsersOrderBy {
+  # throw on null
+  id: OrderDirection
+  name: OrderDirection
 }
 
 input UserUpdateInput {
@@ -207,9 +219,9 @@ input UserUpdateInput {
   posts: PostRelateToManyInput
 }
 
-input UsersUpdateInput {
-  id: ID!
-  data: UserUpdateInput
+input UserUpdateArgs {
+  where: UserWhereUniqueInput!
+  data: UserUpdateInput!
 }
 
 input UserCreateInput {
@@ -226,17 +238,27 @@ input UserCreateInput {
 
 input UsersCreateInput {
   data: UserCreateInput
+
 }
 
-input UserRelateToOneInput {
+# would eventually be an input union
+# you must only pass one of these two
+input UserRelateToOneForCreateInput {
   create: UserCreateInput
   connect: UserWhereUniqueInput
-  disconnect: UserWhereUniqueInput
-  disconnectAll: Boolean
+}
+
+# would eventually be an input union
+# you must only pass one of these
+input UserRelateToOneForUpdateInput {
+  create: UserCreateInput
+  update: UserUpdateInput
+  connect: UserWhereUniqueInput
+  # delete: Boolean
 }
 
 """
- A keystone list
+A keystone list
 """
 type PhoneNumber {
   id: ID!
@@ -293,8 +315,8 @@ input PhoneNumberUpdateInput {
 }
 
 input PhoneNumbersUpdateInput {
-  id: ID!
-  data: PhoneNumberUpdateInput
+  where: UserWhereUniqueInput!
+  data: PhoneNumberUpdateInput!
 }
 
 input PhoneNumberCreateInput {
@@ -312,7 +334,7 @@ type Post_content_DocumentField {
 }
 
 """
- A keystone list
+A keystone list
 """
 type Post {
   id: ID!
@@ -402,9 +424,7 @@ input PostsCreateInput {
 The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
 """
 scalar JSON
-  @specifiedBy(
-    url: "http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf"
-  )
+  @specifiedBy(url: "http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf")
 
 type _QueryMeta {
   count: Int
@@ -412,101 +432,104 @@ type _QueryMeta {
 
 type Mutation {
   """
-   Create a single User item.
+  Create a single User item.
   """
-  createUser(data: UserCreateInput): User
+  createUser(data: UserCreateInput! = {}): User!
 
   """
-   Create multiple User items.
+  Create multiple User items.
   """
-  createUsers(data: [UsersCreateInput]): [User]
+  createUsers(data: [UserCreateInput!]!): [User!]!
 
   """
-   Update a single User item by ID.
+  Update a single User item by ID.
   """
-  updateUser(id: ID!, data: UserUpdateInput): User
+  updateUser(where: UserWhereUniqueInput!, data: UserUpdateInput!): User!
 
   """
-   Update multiple User items by ID.
+  Update multiple User items by ID.
   """
-  updateUsers(data: [UsersUpdateInput]): [User]
+  updateUsers(items: [UserUpdateArgs!]!): [User!]!
 
   """
-   Delete a single User item by ID.
+  Delete a single User item by ID.
   """
-  deleteUser(id: ID!): User
+  deleteUser(where: UserWhereUniqueInput!): User!
 
   """
-   Delete multiple User items by ID.
+  Delete multiple User items by ID.
   """
-  deleteUsers(ids: [ID!]): [User]
+
+# fetch all the items(implicitly do access control) -> filter
+# run all the hooks
+# filter -> deleteMany
+
+  deleteUsers(where: [UserWhereUniqueInput!]!): [User!]!
 
   """
-   Create a single PhoneNumber item.
+  Create a single PhoneNumber item.
   """
   createPhoneNumber(data: PhoneNumberCreateInput): PhoneNumber
 
   """
-   Create multiple PhoneNumber items.
+  Create multiple PhoneNumber items.
   """
   createPhoneNumbers(data: [PhoneNumbersCreateInput]): [PhoneNumber]
 
   """
-   Update a single PhoneNumber item by ID.
+  Update a single PhoneNumber item by ID.
   """
   updatePhoneNumber(id: ID!, data: PhoneNumberUpdateInput): PhoneNumber
 
   """
-   Update multiple PhoneNumber items by ID.
+  Update multiple PhoneNumber items by ID.
   """
-  updatePhoneNumbers(data: [PhoneNumbersUpdateInput]): [PhoneNumber]
+  updatePhoneNumbers(items: [PhoneNumbersUpdateInput!]!): [PhoneNumber!]!
 
   """
-   Delete a single PhoneNumber item by ID.
+  Delete a single PhoneNumber item by ID.
   """
   deletePhoneNumber(id: ID!): PhoneNumber
 
   """
-   Delete multiple PhoneNumber items by ID.
+  Delete multiple PhoneNumber items by ID.
   """
   deletePhoneNumbers(ids: [ID!]): [PhoneNumber]
 
   """
-   Create a single Post item.
+  Create a single Post item.
   """
   createPost(data: PostCreateInput): Post
 
   """
-   Create multiple Post items.
+  Create multiple Post items.
   """
   createPosts(data: [PostsCreateInput]): [Post]
 
   """
-   Update a single Post item by ID.
+  Update a single Post item by ID.
   """
   updatePost(id: ID!, data: PostUpdateInput): Post
 
   """
-   Update multiple Post items by ID.
+  Update multiple Post items by ID.
   """
   updatePosts(data: [PostsUpdateInput]): [Post]
 
   """
-   Delete a single Post item by ID.
+  Delete a single Post item by ID.
   """
   deletePost(id: ID!): Post
 
   """
-   Delete multiple Post items by ID.
+  Delete multiple Post items by ID.
   """
   deletePosts(ids: [ID!]): [Post]
   authenticateUserWithPassword(
     email: String!
     password: String!
   ): UserAuthenticationWithPasswordResult!
-  createInitialUser(
-    data: CreateInitialUserInput!
-  ): UserAuthenticationWithPasswordSuccess!
+  createInitialUser(data: CreateInitialUserInput!): UserAuthenticationWithPasswordSuccess!
   createRandomPosts: [Post!]!
   endSession: Boolean!
 }
@@ -553,36 +576,36 @@ type RandomNumber {
 
 type Query {
   """
-   Search for all User items which match the where clause.
+  Search for all User items which match the where clause.
   """
   allUsers(
-    where: UserWhereInput
-    search: String
-    sortBy: [SortUsersBy!]
-    orderBy: String
+    where: UserWhereInput! = {}
+    # search: String
+    orderBy: [UsersOrderBy!]! = []
+
+    # maxResults for list set to 500
+    first: Int! = 500
+    # maxResults is not set
     first: Int
-    skip: Int
-  ): [User]
+
+    skip: Int! = 0
+  ): [User!]!
 
   """
-   Search for the User item with the matching ID.
+  Search for the User item with the matching ID.
   """
+  # return null when does not exist or not allowed to access
   User(where: UserWhereUniqueInput!): User
 
   """
-   Perform a meta-query on all User items which match the where clause.
+  Perform a meta-query on all User items which match the where clause.
   """
-  _allUsersMeta(
-    where: UserWhereInput
-    search: String
-    sortBy: [SortUsersBy!]
-    orderBy: String
-    first: Int
-    skip: Int
-  ): _QueryMeta
+  countUsers(
+    where: UserWhereInput! = {}
+  ): Int!
 
   """
-   Search for all PhoneNumber items which match the where clause.
+  Search for all PhoneNumber items which match the where clause.
   """
   allPhoneNumbers(
     where: PhoneNumberWhereInput
@@ -594,24 +617,24 @@ type Query {
   ): [PhoneNumber]
 
   """
-   Search for the PhoneNumber item with the matching ID.
+  Search for the PhoneNumber item with the matching ID.
   """
   PhoneNumber(where: PhoneNumberWhereUniqueInput!): PhoneNumber
 
   """
-   Perform a meta-query on all PhoneNumber items which match the where clause.
+  Perform a meta-query on all PhoneNumber items which match the where clause.
   """
-  _allPhoneNumbersMeta(
+  countPhoneNumbers(
     where: PhoneNumberWhereInput
     search: String
     sortBy: [SortPhoneNumbersBy!]
     orderBy: String
     first: Int
     skip: Int
-  ): _QueryMeta
+  ): Int!
 
   """
-   Search for all Post items which match the where clause.
+  Search for all Post items which match the where clause.
   """
   allPosts(
     where: PostWhereInput
@@ -623,12 +646,12 @@ type Query {
   ): [Post]
 
   """
-   Search for the Post item with the matching ID.
+  Search for the Post item with the matching ID.
   """
   Post(where: PostWhereUniqueInput!): Post
 
   """
-   Perform a meta-query on all Post items which match the where clause.
+  Perform a meta-query on all Post items which match the where clause.
   """
   _allPostsMeta(
     where: PostWhereInput
