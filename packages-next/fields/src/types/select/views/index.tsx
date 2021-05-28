@@ -30,7 +30,7 @@ export const Field = ({ field, value, onChange, autoFocus }: FieldProps<typeof c
     ) : (
       <SegmentedControl
         segments={field.options.map(x => x.label)}
-        selectedIndex={value ? field.options.findIndex(x => x.value === value.value) : undefined}
+        selectedIndex={value ? field.options.findIndex(x => x.value === value.value) : null}
         onChange={index => {
           onChange?.(field.options[index]);
         }}
