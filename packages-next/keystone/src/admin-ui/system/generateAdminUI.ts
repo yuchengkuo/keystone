@@ -2,16 +2,12 @@ import Path from 'path';
 import fs from 'fs-extra';
 
 import fastGlob from 'fast-glob';
-import prettier from 'prettier';
 import resolve from 'resolve';
 import { GraphQLSchema } from 'graphql';
 import type { KeystoneConfig, AdminMetaRootVal } from '@keystone-next/types';
 import { AdminFileToWrite } from '@keystone-next/types';
 import { writeAdminFiles } from '../templates';
 import { serializePathForImport } from '../utils/serializePathForImport';
-
-export const formatSource = (src: string, parser: 'babel' | 'babel-ts' = 'babel') =>
-  prettier.format(src, { parser, trailingComma: 'es5', singleQuote: true });
 
 function getDoesAdminConfigExist() {
   try {
@@ -39,7 +35,17 @@ async function writeAdminFile(file: AdminFileToWrite, projectAdminPath: string) 
     await fs.copyFile(file.inputPath, outputFilename);
   }
   if (file.mode === 'write') {
-    await fs.outputFile(outputFilename, formatSource(file.src));
+    try {
+      const contents = await fs.readFile(outputFilename, 'utf8');
+      if (contents === file.src) {
+        return Path.normalize(outputFilename);
+      }
+    } catch (err) {
+      if (err.code !== 'ENOENT') {
+        throw err;
+      }
+    }
+    await fs.outputFile(outputFilename, file.src);
   }
   return Path.normalize(outputFilename);
 }
@@ -52,6 +58,15 @@ export const generateAdminUI = async (
 ) => {
   // Nuke any existing files in our target directory
   await fs.remove(projectAdminPath);
+  generateActualAdminUIThings(config, graphQLSchema, adminMeta, projectAdminPath);
+};
+
+export async function generateActualAdminUIThings(
+  config: KeystoneConfig,
+  graphQLSchema: GraphQLSchema,
+  adminMeta: AdminMetaRootVal,
+  projectAdminPath: string
+) {
   const publicDirectory = Path.join(projectAdminPath, 'public');
 
   if (config.images || config.files) {
@@ -105,4 +120,4 @@ export const generateAdminUI = async (
       await fs.outputFile(outputFilename, `export { default } from ${importPath}`);
     })
   );
-};
+}

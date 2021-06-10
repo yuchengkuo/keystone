@@ -12,7 +12,6 @@ import {
   FieldDefinitionNode,
   InputValueDefinitionNode,
 } from 'graphql';
-import prettier from 'prettier';
 import { InitialisedList } from './core/types-for-lists';
 
 let printEnumTypeDefinition = (node: EnumTypeDefinitionNode) => {
@@ -153,9 +152,5 @@ export type ${listKey}ListFn = (
 `;
     allListsStr += `\n  readonly ${JSON.stringify(listKey)}: ${listTypeInfoName};`;
   }
-  return prettier.format(printedTypes + allListsStr + '\n};\n', {
-    parser: 'babel-ts',
-    trailingComma: 'es5',
-    singleQuote: true,
-  });
+  return printedTypes + allListsStr + '\n};\n';
 }

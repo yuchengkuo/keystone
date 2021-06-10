@@ -6,6 +6,7 @@ export const lists = createSchema({
   Task: list({
     fields: {
       label: text({ isRequired: true }),
+      thing: text(),
       priority: select({
         dataType: 'enum',
         options: [

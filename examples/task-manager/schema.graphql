@@ -4,6 +4,7 @@
 type Task {
   id: ID!
   label: String
+  thing: String
   priority: TaskPriorityType
   isComplete: Boolean
   assignedTo: Person
@@ -33,6 +34,12 @@ input TaskWhereInput {
   label_not_contains: String
   label_in: [String]
   label_not_in: [String]
+  thing: String
+  thing_not: String
+  thing_contains: String
+  thing_not_contains: String
+  thing_in: [String]
+  thing_not_in: [String]
   priority: TaskPriorityType
   priority_not: TaskPriorityType
   priority_in: [TaskPriorityType]
@@ -60,6 +67,8 @@ enum SortTasksBy {
   id_DESC
   label_ASC
   label_DESC
+  thing_ASC
+  thing_DESC
   priority_ASC
   priority_DESC
   isComplete_ASC
@@ -71,6 +80,7 @@ enum SortTasksBy {
 input TaskOrderByInput {
   id: OrderDirection
   label: OrderDirection
+  thing: OrderDirection
   priority: OrderDirection
   isComplete: OrderDirection
   finishBy: OrderDirection
@@ -83,6 +93,7 @@ enum OrderDirection {
 
 input TaskUpdateInput {
   label: String
+  thing: String
   priority: TaskPriorityType
   isComplete: Boolean
   assignedTo: PersonRelateToOneInput
@@ -103,6 +114,7 @@ input TasksUpdateInput {
 
 input TaskCreateInput {
   label: String
+  thing: String
   priority: TaskPriorityType
   isComplete: Boolean
   assignedTo: PersonRelateToOneInput

@@ -13,6 +13,8 @@ export const config = withPreconstruct({
       ),
     };
     if (isServer) {
+      config.node.__dirname = true;
+      config.node.__filename = true;
       config.externals = [...config.externals, /@keystone-next\/keystone/, /@keystone-next\/types/];
     }
     return config;
