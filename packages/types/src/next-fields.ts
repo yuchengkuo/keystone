@@ -271,6 +271,7 @@ export type UpdateFieldInputArg<
   TArg extends schema.Arg<schema.InputType, any>
 > = {
   arg: TArg;
+  validate?: any;
 } & ResolveFunc<
   FieldInputResolver<
     schema.InferValueFromArg<TArg>,
@@ -306,12 +307,15 @@ export type CreateFieldInputArg<
   ? DBFieldToInputValue<TDBField> extends schema.InferValueFromArg<TArg>
     ? {
         resolve?: CreateFieldInputResolver<schema.InferValueFromArg<TArg>, TDBField>;
+        validate?: any;
       }
     : {
         resolve: CreateFieldInputResolver<schema.InferValueFromArg<TArg>, TDBField>;
+        validate?: any;
       }
   : {
       resolve: CreateFieldInputResolver<undefined, TDBField>;
+      validate?: any;
     });
 
 type UnwrapMaybePromise<T> = T extends Promise<infer Resolved> ? Resolved : T;
