@@ -23,7 +23,7 @@ export type KeystoneConfig = {
   ui?: AdminUIConfig;
   server?: ServerConfig;
   session?: SessionStrategy<any>;
-  graphql?: GraphQLConfig;
+  graphql?: GraphQLConfig<any>;
   extendGraphqlSchema?: ExtendGraphqlSchema;
   files?: FilesConfig;
   images?: ImagesConfig;
@@ -131,7 +131,7 @@ export type ServerConfig = {
 
 // config.graphql
 
-export type GraphQLConfig = {
+export type GraphQLConfig<T extends KeystoneContext> = {
   // FIXME: We currently hardcode `/api/graphql` in a bunch of places
   // We should be able to use config.graphql.path to set this path.
   // path?: string;
@@ -177,6 +177,7 @@ export type GraphQLConfig = {
    * Default: process.env.NODE_ENV !== 'production'
    */
   debug?: boolean;
+  extendContext?: (context: KeystoneContext) => T;
 };
 
 // config.extendGraphqlSchema

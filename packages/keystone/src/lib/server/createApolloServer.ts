@@ -16,7 +16,7 @@ export const createApolloServerMicro = ({
   graphQLSchema: GraphQLSchema;
   createContext: CreateContext;
   sessionStrategy?: SessionStrategy<any>;
-  graphqlConfig?: GraphQLConfig;
+  graphqlConfig?: GraphQLConfig<any>;
   connectionPromise: Promise<any>;
 }) => {
   const context = async ({ req, res }: { req: IncomingMessage; res: ServerResponse }) => {
@@ -41,7 +41,7 @@ export const createApolloServerExpress = ({
   graphQLSchema: GraphQLSchema;
   createContext: CreateContext;
   sessionStrategy?: SessionStrategy<any>;
-  graphqlConfig?: GraphQLConfig;
+  graphqlConfig?: GraphQLConfig<any>;
 }) => {
   const context = async ({ req, res }: { req: IncomingMessage; res: ServerResponse }) =>
     createContext({
@@ -59,7 +59,7 @@ const _createApolloServerConfig = ({
   graphqlConfig,
 }: {
   graphQLSchema: GraphQLSchema;
-  graphqlConfig?: GraphQLConfig;
+  graphqlConfig?: GraphQLConfig<any>;
 }) => {
   // Playground config, is /api/graphql available?
   const apolloConfig = graphqlConfig?.apolloConfig;
@@ -108,7 +108,7 @@ const _createApolloServerConfig = ({
   };
 };
 
-const formatError = (graphqlConfig: GraphQLConfig | undefined) => {
+const formatError = (graphqlConfig: GraphQLConfig<any> | undefined) => {
   return (err: GraphQLError) => {
     let debug = graphqlConfig?.debug;
     if (debug === undefined) {
