@@ -1,5 +1,8 @@
 import { createSchema, list } from '@keystone-next/keystone/schema';
 import { select, relationship, text, timestamp } from '@keystone-next/fields';
+import { KeystoneContext } from '../../packages/types/src';
+
+type Context = KeystoneContext & { foo: string };
 
 export const lists = createSchema({
   Post: list({
@@ -15,6 +18,12 @@ export const lists = createSchema({
       content: text(),
       publishDate: timestamp(),
       author: relationship({ ref: 'Author.posts', many: false }),
+    },
+    access: {
+      read: true,
+      update: true,
+      create: true,
+      delete: ({ context }: { context: Context }) => context.foo === 'bar',
     },
   }),
   Author: list({
