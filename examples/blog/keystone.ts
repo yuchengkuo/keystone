@@ -10,7 +10,7 @@ export default config({
   lists,
   graphql: {
     // Example usage for RFC, will document/exemplify this elsewhere before merging.
-    extendContext: (_context: KeystoneContext) => {
+    extendContext: _context => {
       // We need to return the same object, but we need to tell typescript its new type,
       // so we reassign the input and use an 'as' statement to set the type
       const context = _context as KeystoneContext & { foo: string };
