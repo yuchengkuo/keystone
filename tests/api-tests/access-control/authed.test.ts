@@ -200,14 +200,14 @@ describe('Authed', () => {
               const invalidId = items[listKey].find(({ name }) => name !== 'Hello')?.id;
               const query = `query { ${itemQueryName}(where: { id: "${invalidId}" }) { id } }`;
               const { data, errors } = await context.graphql.raw({ query });
+              expect(errors).toBe(undefined);
               if (mode === 'imperative') {
                 // Imperative should work
-                expect(errors).toBe(undefined);
                 expect(data?.[itemQueryName]).not.toBe(null);
                 expect(data?.[itemQueryName].id).toEqual(invalidId);
               } else {
                 // but declarative should not
-                expectNoAccess(data, errors, itemQueryName);
+                expect(data![itemQueryName]).toBe(null);
               }
             });
 
@@ -215,7 +215,8 @@ describe('Authed', () => {
               const { itemQueryName } = context.gqlNames(listKey);
               const query = `query { ${itemQueryName}(where: { id: "${FAKE_ID[provider]}" }) { id } }`;
               const { data, errors } = await context.graphql.raw({ query });
-              expectNoAccess(data, errors, itemQueryName);
+              expect(errors).toBe(undefined)
+              expect(data![itemQueryName]).toBe(null);
             });
 
             test(`multiple not existing: ${JSON.stringify(access)}`, async () => {
