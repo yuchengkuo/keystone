@@ -215,7 +215,7 @@ describe('Authed', () => {
               const { itemQueryName } = context.gqlNames(listKey);
               const query = `query { ${itemQueryName}(where: { id: "${FAKE_ID[provider]}" }) { id } }`;
               const { data, errors } = await context.graphql.raw({ query });
-              expect(errors).toBe(undefined)
+              expect(errors).toBe(undefined);
               expect(data![itemQueryName]).toBe(null);
             });
 
