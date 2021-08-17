@@ -149,13 +149,13 @@ export const expectPrismaError = (
 ) => {
   const unpackedErrors = unpackErrors(errors);
   expect(unpackedErrors).toEqual(
-    args.map(({ path, message, code, target }) => ({
+    args.map(({ path, error: { message, code, meta } }) => ({
       extensions: {
         code: 'KS_PRISMA_ERROR',
-        exception: { clientVersion: '2.29.1', code, meta: { target } },
+        exception: { clientVersion: '2.29.1', code, meta },
       },
       path,
-      message: `Prisma error: ${error.message}`,
+      message: `Prisma error: ${message}`,
     }))
   );
 };

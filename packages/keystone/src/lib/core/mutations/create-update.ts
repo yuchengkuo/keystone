@@ -10,7 +10,6 @@ import {
   promiseAllRejectWithSystemError,
 } from '../graphql-errors';
 import { resolveUniqueWhereInput, UniqueInputFilter } from '../where-inputs';
-import { extensionError } from '../graphql-errors';
 import {
   resolveRelateToManyForCreateInput,
   resolveRelateToManyForUpdateInput,
