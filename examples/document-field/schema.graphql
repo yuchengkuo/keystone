@@ -17,6 +17,11 @@ type Post_content_DocumentField {
   document(hydrateRelationships: Boolean! = false): JSON!
 }
 
+input PostWhereUniqueInput {
+  id: ID
+  slug: String
+}
+
 input PostWhereInput {
   AND: [PostWhereInput!]
   OR: [PostWhereInput!]
@@ -86,11 +91,6 @@ input DateTimeNullableFilter {
   not: DateTimeNullableFilter
 }
 
-input PostWhereUniqueInput {
-  id: ID
-  slug: String
-}
-
 input PostOrderByInput {
   id: OrderDirection
   title: OrderDirection
@@ -156,6 +156,11 @@ type Author_bio_DocumentField {
   document(hydrateRelationships: Boolean! = false): JSON!
 }
 
+input AuthorWhereUniqueInput {
+  id: ID
+  email: String
+}
+
 input AuthorWhereInput {
   AND: [AuthorWhereInput!]
   OR: [AuthorWhereInput!]
@@ -170,11 +175,6 @@ input PostManyRelationFilter {
   every: PostWhereInput
   some: PostWhereInput
   none: PostWhereInput
-}
-
-input AuthorWhereUniqueInput {
-  id: ID
-  email: String
 }
 
 input AuthorOrderByInput {

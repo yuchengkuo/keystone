@@ -158,52 +158,7 @@ describe(`Not authed`, () => {
 
   describe('Field access', () => {
     describe('create', () => {
-      (['static'] as const).forEach(mode => {
-        describe(mode, () => {
-          fieldMatrix
-            .filter(({ create }) => !create)
-            .forEach(access => {
-              test(`field not allowed: ${JSON.stringify(access)}`, async () => {
-                const listAccess = {
-                  create: true,
-                  read: true,
-                  update: true,
-                  delete: true,
-                };
-                const createMutationName = `create${nameFn[mode](listAccess)}`;
-                const fieldName = getFieldName(access);
-                const query = `mutation { ${createMutationName}(data: { ${fieldName}: "bar" }) { id ${fieldName} } }`;
-                const { body } = await graphQLRequest({ query });
-                // If create is not allowed on a field then there will be a query validation error
-                if (access.read) {
-                  const message = `Field "${fieldName}" is not defined by type "${nameFn[mode](
-                    listAccess
-                  )}CreateInput".`;
-                  expectGraphQLValidationError(body.errors, [
-                    { message: expect.stringContaining(message) },
-                  ]);
-                } else {
-                  expectGraphQLValidationError(body.errors, [
-                    {
-                      message: expect.stringContaining(
-                        `Field "${fieldName}" is not defined by type "${nameFn[mode](
-                          listAccess
-                        )}CreateInput".`
-                      ),
-                    },
-                    {
-                      message: expect.stringContaining(
-                        `Cannot query field "${fieldName}" on type "${nameFn[mode](listAccess)}".`
-                      ),
-                    },
-                  ]);
-                }
-                expect(body.data).toBe(undefined);
-              });
-            });
-        });
-      });
-      (['imperative'] as const).forEach(mode => {
+      (['imperative', 'static'] as const).forEach(mode => {
         describe(mode, () => {
           fieldMatrix
             .filter(({ create }) => !create)
@@ -230,7 +185,7 @@ describe(`Not authed`, () => {
     });
 
     describe('read', () => {
-      (['imperative'] as const).forEach(mode => {
+      (['imperative', 'static'] as const).forEach(mode => {
         describe(mode, () => {
           fieldMatrix
             .filter(({ read }) => !read)
@@ -288,93 +243,93 @@ describe(`Not authed`, () => {
             });
         });
       });
-      (['static'] as const).forEach(mode => {
-        describe(mode, () => {
-          fieldMatrix
-            .filter(({ read }) => !read)
-            .forEach(access => {
-              test(`field allowed - singular: ${JSON.stringify(access)}`, async () => {
-                const listAccess = { create: true, read: true, update: true, delete: true };
-                const listKey = nameFn[mode](listAccess);
-                const item = items[listKey][0];
-                const fieldName = getFieldName(access);
-                const singleQueryName = context.gqlNames(listKey).itemQueryName;
-                await context.sudo().lists[listKey].updateOne({
-                  where: { id: item.id },
-                  data: { [fieldName]: 'hello' },
-                });
-                const query = `query { ${singleQueryName}(where: { id: "${item.id}" }) { id ${fieldName} } }`;
-                const { body } = await graphQLRequest({ query });
-                expectGraphQLValidationError(body.errors, [
-                  {
-                    message: expect.stringContaining(
-                      `Cannot query field "${fieldName}" on type "${listKey}".`
-                    ),
-                  },
-                ]);
-                expect(body.data).toBe(undefined);
-              });
-              test(`field allowed - multi: ${JSON.stringify(access)}`, async () => {
-                const listAccess = { create: true, read: true, update: true, delete: true };
-                const listKey = nameFn[mode](listAccess);
-                const item = items[listKey][0];
-                const fieldName = getFieldName(access);
-                const allQueryName = context.gqlNames(listKey).listQueryName;
-                await context.sudo().lists[listKey].updateOne({
-                  where: { id: item.id },
-                  data: { [fieldName]: 'hello' },
-                });
-                const query = `query { ${allQueryName} { id ${fieldName} } }`;
-                const { body } = await graphQLRequest({ query });
-                expectGraphQLValidationError(body.errors, [
-                  {
-                    message: expect.stringContaining(
-                      `Cannot query field "${fieldName}" on type "${listKey}".`
-                    ),
-                  },
-                ]);
-                expect(body.data).toBe(undefined);
-              });
-            });
-        });
-      });
+      // (['static'] as const).forEach(mode => {
+      //   describe(mode, () => {
+      //     fieldMatrix
+      //       .filter(({ read }) => !read)
+      //       .forEach(access => {
+      //         test(`field allowed - singular: ${JSON.stringify(access)}`, async () => {
+      //           const listAccess = { create: true, read: true, update: true, delete: true };
+      //           const listKey = nameFn[mode](listAccess);
+      //           const item = items[listKey][0];
+      //           const fieldName = getFieldName(access);
+      //           const singleQueryName = context.gqlNames(listKey).itemQueryName;
+      //           await context.sudo().lists[listKey].updateOne({
+      //             where: { id: item.id },
+      //             data: { [fieldName]: 'hello' },
+      //           });
+      //           const query = `query { ${singleQueryName}(where: { id: "${item.id}" }) { id ${fieldName} } }`;
+      //           const { body } = await graphQLRequest({ query });
+      //           expectGraphQLValidationError(body.errors, [
+      //             {
+      //               message: expect.stringContaining(
+      //                 `Cannot query field "${fieldName}" on type "${listKey}".`
+      //               ),
+      //             },
+      //           ]);
+      //           expect(body.data).toBe(undefined);
+      //         });
+      //         test(`field allowed - multi: ${JSON.stringify(access)}`, async () => {
+      //           const listAccess = { create: true, read: true, update: true, delete: true };
+      //           const listKey = nameFn[mode](listAccess);
+      //           const item = items[listKey][0];
+      //           const fieldName = getFieldName(access);
+      //           const allQueryName = context.gqlNames(listKey).listQueryName;
+      //           await context.sudo().lists[listKey].updateOne({
+      //             where: { id: item.id },
+      //             data: { [fieldName]: 'hello' },
+      //           });
+      //           const query = `query { ${allQueryName} { id ${fieldName} } }`;
+      //           const { body } = await graphQLRequest({ query });
+      //           expectGraphQLValidationError(body.errors, [
+      //             {
+      //               message: expect.stringContaining(
+      //                 `Cannot query field "${fieldName}" on type "${listKey}".`
+      //               ),
+      //             },
+      //           ]);
+      //           expect(body.data).toBe(undefined);
+      //         });
+      //       });
+      //   });
+      // });
     });
 
     describe('update', () => {
-      (['static'] as const).forEach(mode => {
-        describe(mode, () => {
-          fieldMatrix
-            .filter(({ update }) => !update)
-            .forEach(access => {
-              test(`field not allowed: ${JSON.stringify(access)}`, async () => {
-                const listAccess = {
-                  create: true,
-                  read: true,
-                  update: true,
-                  delete: true,
-                };
-                const updateMutationName = `update${nameFn[mode](listAccess)}`;
-                const listKey = nameFn[mode](listAccess);
-                const item = items[listKey][0];
-                const fieldName = getFieldName(access);
-                const query = `mutation { ${updateMutationName}(where: { id: "${
-                  item.id
-                }" }, data: { ${fieldName}: "bar" }) { id ${access.read ? fieldName : ''} } }`;
-                const { body } = await graphQLRequest({ query });
-                // If update is not allowed on a field then there will be a query validation error
-                expectGraphQLValidationError(body.errors, [
-                  {
-                    message: expect.stringContaining(
-                      `Field "${fieldName}" is not defined by type "${listKey}UpdateInput".`
-                    ),
-                  },
-                ]);
-                expect(body.data).toBe(undefined);
-              });
-            });
-        });
-      });
-      (['imperative'] as const).forEach(mode => {
+      // (['static'] as const).forEach(mode => {
+      //   describe(mode, () => {
+      //     fieldMatrix
+      //       .filter(({ update }) => !update)
+      //       .forEach(access => {
+      //         test(`field not allowed: ${JSON.stringify(access)}`, async () => {
+      //           const listAccess = {
+      //             create: true,
+      //             read: true,
+      //             update: true,
+      //             delete: true,
+      //           };
+      //           const updateMutationName = `update${nameFn[mode](listAccess)}`;
+      //           const listKey = nameFn[mode](listAccess);
+      //           const item = items[listKey][0];
+      //           const fieldName = getFieldName(access);
+      //           const query = `mutation { ${updateMutationName}(where: { id: "${
+      //             item.id
+      //           }" }, data: { ${fieldName}: "bar" }) { id ${access.read ? fieldName : ''} } }`;
+      //           const { body } = await graphQLRequest({ query });
+      //           // If update is not allowed on a field then there will be a query validation error
+      //           expectGraphQLValidationError(body.errors, [
+      //             {
+      //               message: expect.stringContaining(
+      //                 `Field "${fieldName}" is not defined by type "${listKey}UpdateInput".`
+      //               ),
+      //             },
+      //           ]);
+      //           expect(body.data).toBe(undefined);
+      //         });
+      //       });
+      //   });
+      // });
+      (['imperative', 'static'] as const).forEach(mode => {
         describe(mode, () => {
           fieldMatrix
             .filter(({ update }) => !update)

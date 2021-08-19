@@ -14,6 +14,10 @@ enum TaskPriorityType {
   high
 }
 
+input TaskWhereUniqueInput {
+  id: ID
+}
+
 input TaskWhereInput {
   AND: [TaskWhereInput!]
   OR: [TaskWhereInput!]
@@ -88,10 +92,6 @@ input DateTimeNullableFilter {
   not: DateTimeNullableFilter
 }
 
-input TaskWhereUniqueInput {
-  id: ID
-}
-
 input TaskOrderByInput {
   id: OrderDirection
   label: OrderDirection
@@ -151,6 +151,10 @@ type Person {
   tasksCount(where: TaskWhereInput! = {}): Int
 }
 
+input PersonWhereUniqueInput {
+  id: ID
+}
+
 input PersonWhereInput {
   AND: [PersonWhereInput!]
   OR: [PersonWhereInput!]
@@ -164,10 +168,6 @@ input TaskManyRelationFilter {
   every: TaskWhereInput
   some: TaskWhereInput
   none: TaskWhereInput
-}
-
-input PersonWhereUniqueInput {
-  id: ID
 }
 
 input PersonOrderByInput {

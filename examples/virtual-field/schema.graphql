@@ -22,6 +22,10 @@ type PostCounts {
   paragraphs: Int
 }
 
+input PostWhereUniqueInput {
+  id: ID
+}
+
 input PostWhereInput {
   AND: [PostWhereInput!]
   OR: [PostWhereInput!]
@@ -91,10 +95,6 @@ input DateTimeNullableFilter {
   not: DateTimeNullableFilter
 }
 
-input PostWhereUniqueInput {
-  id: ID
-}
-
 input PostOrderByInput {
   id: OrderDirection
   title: OrderDirection
@@ -154,6 +154,11 @@ type Author {
   latestPost: Post
 }
 
+input AuthorWhereUniqueInput {
+  id: ID
+  email: String
+}
+
 input AuthorWhereInput {
   AND: [AuthorWhereInput!]
   OR: [AuthorWhereInput!]
@@ -168,11 +173,6 @@ input PostManyRelationFilter {
   every: PostWhereInput
   some: PostWhereInput
   none: PostWhereInput
-}
-
-input AuthorWhereUniqueInput {
-  id: ID
-  email: String
 }
 
 input AuthorOrderByInput {

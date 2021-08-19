@@ -5,6 +5,10 @@ type Post {
   content: String
 }
 
+input PostWhereUniqueInput {
+  id: ID
+}
+
 input PostWhereInput {
   AND: [PostWhereInput!]
   OR: [PostWhereInput!]
@@ -52,10 +56,6 @@ input NestedStringNullableFilter {
   startsWith: String
   endsWith: String
   not: NestedStringNullableFilter
-}
-
-input PostWhereUniqueInput {
-  id: ID
 }
 
 input PostOrderByInput {

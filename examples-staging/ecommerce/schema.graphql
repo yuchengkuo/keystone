@@ -167,6 +167,11 @@ type PasswordState {
   isSet: Boolean!
 }
 
+input UserWhereUniqueInput {
+  id: ID
+  email: String
+}
+
 input UserWhereInput {
   AND: [UserWhereInput!]
   OR: [UserWhereInput!]
@@ -254,11 +259,6 @@ input DateTimeNullableFilter {
   gt: String
   gte: String
   not: DateTimeNullableFilter
-}
-
-input UserWhereUniqueInput {
-  id: ID
-  email: String
 }
 
 input UserOrderByInput {
@@ -362,6 +362,10 @@ type Product {
   user: User
 }
 
+input ProductWhereUniqueInput {
+  id: ID
+}
+
 input ProductWhereInput {
   AND: [ProductWhereInput!]
   OR: [ProductWhereInput!]
@@ -384,10 +388,6 @@ input IntNullableFilter {
   gt: Int
   gte: Int
   not: IntNullableFilter
-}
-
-input ProductWhereUniqueInput {
-  id: ID
 }
 
 input ProductOrderByInput {
@@ -499,6 +499,10 @@ input CloudinaryImageFormat {
   transformation: String
 }
 
+input ProductImageWhereUniqueInput {
+  id: ID
+}
+
 input ProductImageWhereInput {
   AND: [ProductImageWhereInput!]
   OR: [ProductImageWhereInput!]
@@ -506,10 +510,6 @@ input ProductImageWhereInput {
   id: IDFilter
   altText: StringNullableFilter
   product: ProductWhereInput
-}
-
-input ProductImageWhereUniqueInput {
-  id: ID
 }
 
 input ProductImageOrderByInput {
@@ -557,6 +557,10 @@ type CartItem {
   user: User
 }
 
+input CartItemWhereUniqueInput {
+  id: ID
+}
+
 input CartItemWhereInput {
   AND: [CartItemWhereInput!]
   OR: [CartItemWhereInput!]
@@ -565,10 +569,6 @@ input CartItemWhereInput {
   quantity: IntNullableFilter
   product: ProductWhereInput
   user: UserWhereInput
-}
-
-input CartItemWhereUniqueInput {
-  id: ID
 }
 
 input CartItemOrderByInput {
@@ -603,6 +603,10 @@ type OrderItem {
   order: Order
 }
 
+input OrderItemWhereUniqueInput {
+  id: ID
+}
+
 input OrderItemWhereInput {
   AND: [OrderItemWhereInput!]
   OR: [OrderItemWhereInput!]
@@ -614,10 +618,6 @@ input OrderItemWhereInput {
   price: IntNullableFilter
   quantity: IntNullableFilter
   order: OrderWhereInput
-}
-
-input OrderItemWhereUniqueInput {
-  id: ID
 }
 
 input OrderItemOrderByInput {
@@ -677,6 +677,10 @@ type Order {
   charge: String
 }
 
+input OrderWhereUniqueInput {
+  id: ID
+}
+
 input OrderWhereInput {
   AND: [OrderWhereInput!]
   OR: [OrderWhereInput!]
@@ -692,10 +696,6 @@ input OrderItemManyRelationFilter {
   every: OrderItemWhereInput
   some: OrderItemWhereInput
   none: OrderItemWhereInput
-}
-
-input OrderWhereUniqueInput {
-  id: ID
 }
 
 input OrderOrderByInput {
@@ -753,6 +753,10 @@ type Role {
   assignedToCount(where: UserWhereInput! = {}): Int
 }
 
+input RoleWhereUniqueInput {
+  id: ID
+}
+
 input RoleWhereInput {
   AND: [RoleWhereInput!]
   OR: [RoleWhereInput!]
@@ -777,10 +781,6 @@ input UserManyRelationFilter {
   every: UserWhereInput
   some: UserWhereInput
   none: UserWhereInput
-}
-
-input RoleWhereUniqueInput {
-  id: ID
 }
 
 input RoleOrderByInput {

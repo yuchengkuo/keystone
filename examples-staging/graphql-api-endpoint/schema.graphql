@@ -75,6 +75,11 @@ type PasswordState {
   isSet: Boolean!
 }
 
+input UserWhereUniqueInput {
+  id: ID
+  email: String
+}
+
 input UserWhereInput {
   AND: [UserWhereInput!]
   OR: [UserWhereInput!]
@@ -141,11 +146,6 @@ input PostManyRelationFilter {
   none: PostWhereInput
 }
 
-input UserWhereUniqueInput {
-  id: ID
-  email: String
-}
-
 input UserOrderByInput {
   id: OrderDirection
   name: OrderDirection
@@ -208,6 +208,10 @@ type Post_content_DocumentField {
   document(hydrateRelationships: Boolean! = false): JSON!
 }
 
+input PostWhereUniqueInput {
+  id: ID
+}
+
 input PostWhereInput {
   AND: [PostWhereInput!]
   OR: [PostWhereInput!]
@@ -235,10 +239,6 @@ input TagManyRelationFilter {
   every: TagWhereInput
   some: TagWhereInput
   none: TagWhereInput
-}
-
-input PostWhereUniqueInput {
-  id: ID
 }
 
 input PostOrderByInput {
@@ -306,6 +306,10 @@ type Tag {
   postsCount(where: PostWhereInput! = {}): Int
 }
 
+input TagWhereUniqueInput {
+  id: ID
+}
+
 input TagWhereInput {
   AND: [TagWhereInput!]
   OR: [TagWhereInput!]
@@ -313,10 +317,6 @@ input TagWhereInput {
   id: IDFilter
   name: StringNullableFilter
   posts: PostManyRelationFilter
-}
-
-input TagWhereUniqueInput {
-  id: ID
 }
 
 input TagOrderByInput {

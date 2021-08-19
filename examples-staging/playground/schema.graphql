@@ -3,6 +3,10 @@ type Note {
   label: String
 }
 
+input NoteWhereUniqueInput {
+  id: ID
+}
+
 input NoteWhereInput {
   AND: [NoteWhereInput!]
   OR: [NoteWhereInput!]
@@ -48,10 +52,6 @@ input NestedStringNullableFilter {
   startsWith: String
   endsWith: String
   not: NestedStringNullableFilter
-}
-
-input NoteWhereUniqueInput {
-  id: ID
 }
 
 input NoteOrderByInput {

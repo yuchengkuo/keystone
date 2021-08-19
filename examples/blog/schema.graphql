@@ -12,6 +12,10 @@ enum PostStatusType {
   published
 }
 
+input PostWhereUniqueInput {
+  id: ID
+}
+
 input PostWhereInput {
   AND: [PostWhereInput!]
   OR: [PostWhereInput!]
@@ -46,7 +50,13 @@ input StringNullableFilter {
   contains: String
   startsWith: String
   endsWith: String
+  mode: QueryMode
   not: NestedStringNullableFilter
+}
+
+enum QueryMode {
+  default
+  insensitive
 }
 
 input NestedStringNullableFilter {
@@ -79,10 +89,6 @@ input DateTimeNullableFilter {
   gt: String
   gte: String
   not: DateTimeNullableFilter
-}
-
-input PostWhereUniqueInput {
-  id: ID
 }
 
 input PostOrderByInput {
@@ -143,6 +149,11 @@ type Author {
   postsCount(where: PostWhereInput! = {}): Int
 }
 
+input AuthorWhereUniqueInput {
+  id: ID
+  email: String
+}
+
 input AuthorWhereInput {
   AND: [AuthorWhereInput!]
   OR: [AuthorWhereInput!]
@@ -157,11 +168,6 @@ input PostManyRelationFilter {
   every: PostWhereInput
   some: PostWhereInput
   none: PostWhereInput
-}
-
-input AuthorWhereUniqueInput {
-  id: ID
-  email: String
 }
 
 input AuthorOrderByInput {
@@ -311,11 +317,6 @@ enum KeystoneAdminUIFieldMetaItemViewFieldMode {
   edit
   read
   hidden
-}
-
-enum QueryMode {
-  default
-  insensitive
 }
 
 type KeystoneAdminUISort {

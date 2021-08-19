@@ -8,6 +8,10 @@ type Todo {
   updatedAt: String
 }
 
+input TodoWhereUniqueInput {
+  id: ID
+}
+
 input TodoWhereInput {
   AND: [TodoWhereInput!]
   OR: [TodoWhereInput!]
@@ -76,10 +80,6 @@ input DateTimeNullableFilter {
   not: DateTimeNullableFilter
 }
 
-input TodoWhereUniqueInput {
-  id: ID
-}
-
 input TodoOrderByInput {
   id: OrderDirection
   label: OrderDirection
@@ -99,6 +99,8 @@ input TodoUpdateInput {
   isComplete: Boolean
   assignedTo: UserRelateToOneForUpdateInput
   finishBy: String
+  createdAt: String
+  updatedAt: String
 }
 
 input UserRelateToOneForUpdateInput {
@@ -117,6 +119,8 @@ input TodoCreateInput {
   isComplete: Boolean
   assignedTo: UserRelateToOneForCreateInput
   finishBy: String
+  createdAt: String
+  updatedAt: String
 }
 
 input UserRelateToOneForCreateInput {
@@ -144,6 +148,10 @@ type PasswordState {
   isSet: Boolean!
 }
 
+input UserWhereUniqueInput {
+  id: ID
+}
+
 input UserWhereInput {
   AND: [UserWhereInput!]
   OR: [UserWhereInput!]
@@ -167,10 +175,6 @@ input TodoManyRelationFilter {
   none: TodoWhereInput
 }
 
-input UserWhereUniqueInput {
-  id: ID
-}
-
 input UserOrderByInput {
   id: OrderDirection
   name: OrderDirection
@@ -184,6 +188,8 @@ input UserUpdateInput {
   email: String
   password: String
   tasks: TodoRelateToManyForUpdateInput
+  createdAt: String
+  updatedAt: String
 }
 
 input TodoRelateToManyForUpdateInput {
@@ -203,6 +209,8 @@ input UserCreateInput {
   email: String
   password: String
   tasks: TodoRelateToManyForCreateInput
+  createdAt: String
+  updatedAt: String
 }
 
 input TodoRelateToManyForCreateInput {

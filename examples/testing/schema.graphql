@@ -66,6 +66,10 @@ enum TaskPriorityType {
   high
 }
 
+input TaskWhereUniqueInput {
+  id: ID
+}
+
 input TaskWhereInput {
   AND: [TaskWhereInput!]
   OR: [TaskWhereInput!]
@@ -140,10 +144,6 @@ input DateTimeNullableFilter {
   not: DateTimeNullableFilter
 }
 
-input TaskWhereUniqueInput {
-  id: ID
-}
-
 input TaskOrderByInput {
   id: OrderDirection
   label: OrderDirection
@@ -207,6 +207,11 @@ type PasswordState {
   isSet: Boolean!
 }
 
+input PersonWhereUniqueInput {
+  id: ID
+  email: String
+}
+
 input PersonWhereInput {
   AND: [PersonWhereInput!]
   OR: [PersonWhereInput!]
@@ -226,11 +231,6 @@ input TaskManyRelationFilter {
   every: TaskWhereInput
   some: TaskWhereInput
   none: TaskWhereInput
-}
-
-input PersonWhereUniqueInput {
-  id: ID
-  email: String
 }
 
 input PersonOrderByInput {

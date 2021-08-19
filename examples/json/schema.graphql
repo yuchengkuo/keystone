@@ -6,6 +6,10 @@ type Package {
   ownedBy: Person
 }
 
+input PackageWhereUniqueInput {
+  id: ID
+}
+
 input PackageWhereInput {
   AND: [PackageWhereInput!]
   OR: [PackageWhereInput!]
@@ -58,10 +62,6 @@ input NestedStringNullableFilter {
 input BooleanNullableFilter {
   equals: Boolean
   not: BooleanNullableFilter
-}
-
-input PackageWhereUniqueInput {
-  id: ID
 }
 
 input PackageOrderByInput {
@@ -117,6 +117,10 @@ type Person {
   packagesCount(where: PackageWhereInput! = {}): Int
 }
 
+input PersonWhereUniqueInput {
+  id: ID
+}
+
 input PersonWhereInput {
   AND: [PersonWhereInput!]
   OR: [PersonWhereInput!]
@@ -130,10 +134,6 @@ input PackageManyRelationFilter {
   every: PackageWhereInput
   some: PackageWhereInput
   none: PackageWhereInput
-}
-
-input PersonWhereUniqueInput {
-  id: ID
 }
 
 input PersonOrderByInput {

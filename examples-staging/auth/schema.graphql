@@ -57,6 +57,11 @@ type PasswordState {
   isSet: Boolean!
 }
 
+input UserWhereUniqueInput {
+  id: ID
+  email: String
+}
+
 input UserWhereInput {
   AND: [UserWhereInput!]
   OR: [UserWhereInput!]
@@ -114,11 +119,6 @@ input PasswordFilter {
 input BooleanNullableFilter {
   equals: Boolean
   not: BooleanNullableFilter
-}
-
-input UserWhereUniqueInput {
-  id: ID
-  email: String
 }
 
 input UserOrderByInput {

@@ -65,6 +65,10 @@ type Todo {
   assignedTo: Person
 }
 
+input TodoWhereUniqueInput {
+  id: ID
+}
+
 input TodoWhereInput {
   AND: [TodoWhereInput!]
   OR: [TodoWhereInput!]
@@ -118,10 +122,6 @@ input NestedStringNullableFilter {
 input BooleanNullableFilter {
   equals: Boolean
   not: BooleanNullableFilter
-}
-
-input TodoWhereUniqueInput {
-  id: ID
 }
 
 input TodoOrderByInput {
@@ -185,6 +185,11 @@ type PasswordState {
   isSet: Boolean!
 }
 
+input PersonWhereUniqueInput {
+  id: ID
+  email: String
+}
+
 input PersonWhereInput {
   AND: [PersonWhereInput!]
   OR: [PersonWhereInput!]
@@ -205,11 +210,6 @@ input TodoManyRelationFilter {
   every: TodoWhereInput
   some: TodoWhereInput
   none: TodoWhereInput
-}
-
-input PersonWhereUniqueInput {
-  id: ID
-  email: String
 }
 
 input PersonOrderByInput {
@@ -280,6 +280,10 @@ type Role {
   assignedToCount(where: PersonWhereInput! = {}): Int
 }
 
+input RoleWhereUniqueInput {
+  id: ID
+}
+
 input RoleWhereInput {
   AND: [RoleWhereInput!]
   OR: [RoleWhereInput!]
@@ -299,10 +303,6 @@ input PersonManyRelationFilter {
   every: PersonWhereInput
   some: PersonWhereInput
   none: PersonWhereInput
-}
-
-input RoleWhereUniqueInput {
-  id: ID
 }
 
 input RoleOrderByInput {
