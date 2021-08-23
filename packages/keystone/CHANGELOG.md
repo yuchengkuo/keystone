@@ -1,5 +1,33 @@
 # @keystone-next/keystone
 
+## 25.0.0
+
+### Major Changes
+
+- [#6377](https://github.com/keystonejs/keystone/pull/6377) [`3008c5110`](https://github.com/keystonejs/keystone/commit/3008c5110a0ebc524eb3609bd8ba901f664f83d3) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Moved exports of `@keystone-next/keystone` to `@keystone-next/keystone/system`
+
+* [#6323](https://github.com/keystonejs/keystone/pull/6323) [`3904a9cf7`](https://github.com/keystonejs/keystone/commit/3904a9cf73e16ef192faae833f2f39ed05f2d707) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Removed unused legacy filter code
+
+- [#6378](https://github.com/keystonejs/keystone/pull/6378) [`489e128fe`](https://github.com/keystonejs/keystone/commit/489e128fe0835968eda0908b199a8867c0e72a5b) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Moved exports of `@keystone-next/keystone/schema` to `@keystone-next/keystone`
+
+### Minor Changes
+
+- [#6371](https://github.com/keystonejs/keystone/pull/6371) [`44f2ef60e`](https://github.com/keystonejs/keystone/commit/44f2ef60e29912f3c85b91fc704e09a7d5a15b22) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Moved `@keystone-next/types` to `@keystone-next/keystone/types`
+
+* [#6367](https://github.com/keystonejs/keystone/pull/6367) [`4f36a81af`](https://github.com/keystonejs/keystone/commit/4f36a81afb03591354acc1d0141eff8fe54ff208) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Moved `@keystone-next/admin-ui-utils` to `@keystone-next/keystone/admin-ui/utils`
+
+- [#6361](https://github.com/keystonejs/keystone/pull/6361) [`595922b48`](https://github.com/keystonejs/keystone/commit/595922b48c909053fa9d34bb1c42177ad41c72d5) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Moved exports of `@keystone-next/testing` to `@keystone-next/keystone/testing`
+
+* [#6368](https://github.com/keystonejs/keystone/pull/6368) [`783290796`](https://github.com/keystonejs/keystone/commit/78329079606d74a2eedd63f96a985116bf0b449c) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Moved `@keystone-next/utils` to `@keystone-next/keystone/fields/types/image/utils` for image ref related utilities and `@keystone-next/keystone/fields/types/file/utils` for file ref related utilities.
+
+- [#6362](https://github.com/keystonejs/keystone/pull/6362) [`fd744dcaa`](https://github.com/keystonejs/keystone/commit/fd744dcaa513efb2a8ae954bb2d5d1fa7f0723d6) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Moved `@keystone-next/fields` to `@keystone-next/keystone/fields`
+
+### Patch Changes
+
+- [#6381](https://github.com/keystonejs/keystone/pull/6381) [`b3eefc1c3`](https://github.com/keystonejs/keystone/commit/b3eefc1c336a9a366c39f7aa2cf5251baaf843fd) Thanks [@mitchellhamilton](https://github.com/mitchellhamilton)! - Fixed error from prisma when using `.keystone/api` from `generateNodeAPI` in a API route (`admin/pages/api/*`)
+
+* [#6354](https://github.com/keystonejs/keystone/pull/6354) [`5ceccd821`](https://github.com/keystonejs/keystone/commit/5ceccd821b513e2abec3eb24278e7c30bdcdf6d6) Thanks [@gwyneplaine](https://github.com/gwyneplaine)! - Fixed Listview checkbox bug in a better way.
+
 ## 24.0.1
 
 ### Patch Changes
